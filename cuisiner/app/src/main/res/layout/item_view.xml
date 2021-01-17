@@ -26,19 +26,19 @@
                     android:id="@+id/nombreDeProductoTextView"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:text="@string/nombre_de_producto" />
+                    android:text="nombre_de_producto" />
 
             <TextView
                     android:id="@+id/cantidadTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:text="@string/cantidad_de_producto" />
+                    android:text="cantidad_de_producto" />
 
             <TextView
                     android:id="@+id/UnidadDeCantidadTextVIew"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:text="@string/unidad_de_cantidad" />
+                    android:text="unidad_de_cantidad" />
         </LinearLayout>
     </RelativeLayout>
 

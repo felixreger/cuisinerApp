@@ -1,4 +1,4 @@
-package com.stovia.cuisiner.ui
+package com.stovia.cuisiner.ui.stock
 
 import android.os.Bundle
 import android.util.Log

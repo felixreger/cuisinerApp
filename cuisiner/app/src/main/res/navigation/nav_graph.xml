@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.stovia.cuisiner.ui.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.stovia.cuisiner.ui.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_listaStock"
+            app:destination="@id/listaStock" />
+        <action
+            android:id="@+id/action_mainFragment_to_receta"
+            app:destination="@id/receta" />
+        <argument
+            android:name="email"
+            app:argType="string"
+            android:defaultValue="errormail" />
+    </fragment>
+    <fragment
+        android:id="@+id/listaStock"
+        android:name="com.stovia.cuisiner.ui.stock.ListaStock"
+        android:label="fragment_lista_stock"
+        tools:layout="@layout/fragment_lista_stock" >
+        <action
+            android:id="@+id/action_listaStock_to_addStock"
+            app:destination="@id/addStock" />
+        <action
+            android:id="@+id/action_listaStock_to_editStock"
+            app:destination="@id/editStock" />
+    </fragment>
+    <fragment
+        android:id="@+id/addStock"
+        android:name="com.stovia.cuisiner.ui.stock.AddStock"
+        android:label="fragment_add_stock"
+        tools:layout="@layout/fragment_add_stock" >
+        <argument
+            android:name="email"
+            app:argType="string"
+            android:defaultValue="error mail" />
+    </fragment>
+    <fragment
+        android:id="@+id/editStock"
+        android:name="com.stovia.cuisiner.ui.stock.EditStock"
+        android:label="fragment_edit_stock"
+        tools:layout="@layout/fragment_edit_stock" >
+        <argument
+            android:name="product"
+            app:argType="com.stovia.cuisiner.ui.model.Product" />
+        <argument
+            android:name="email"
+            app:argType="string"
+            android:defaultValue="error mail" />
+    </fragment>
+    <fragment
+        android:id="@+id/receta"
+        android:name="com.stovia.cuisiner.ui.Receta"
+        android:label="fragment_receta"
+        tools:layout="@layout/fragment_receta" >
+        <action
+            android:id="@+id/action_receta_to_listaStock"
+            app:destination="@id/listaStock" />
+        <argument
+            android:name="email"
+            app:argType="string"
+            android:defaultValue="error mail" />
+    </fragment>
+</navigation>

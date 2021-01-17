@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 
 import com.google.firebase.analytics.FirebaseAnalytics
 
@@ -73,7 +74,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun showHome(email: String) {
-        //val action = LoginFragmentDirections.actionLoginFragmentToMainFragment3("felipe@gmail.com")
-        //findNavController().navigate(action)
+        val action = LoginFragmentDirections.actionLoginFragmentToMainFragment("felipe@gmail.com")
+        findNavController().navigate(action)
     }
 }
