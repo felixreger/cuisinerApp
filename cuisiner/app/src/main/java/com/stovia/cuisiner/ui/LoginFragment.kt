@@ -19,7 +19,9 @@ import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : Fragment() {
 
-    //var loginViewModel = ViewModelLogin()
+    var loginViewModel = ViewModelLogin()
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -29,34 +31,37 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //this.loginViewModel = ViewModelProviders.of(this).get(ViewModelLogin::class.java)
-
-        //initSignInButton()
-        //initLogInButton()
+        this.loginViewModel = ViewModelProviders.of(this).get(ViewModelLogin::class.java)
 
 
-        //analytics
-        //val analytics = FirebaseAnalytics.getInstance(requireContext())
-        //val bundle = Bundle()
-        //bundle.putString("message", "Integracion de Firebase completa")
-        //analytics.logEvent("InitScreen", bundle) //No anda
 
-        //start
-        //emailEditText.setText("felipe@gmail.com")
-        //passwordEditText.setText("felipe")
+        initSignInButton()
+        initLogInButton()
+
+//        analytics
+        val analytics = FirebaseAnalytics.getInstance(requireContext())
+        val bundle = Bundle()
+        bundle.putString("message", "Integracion de Firebase completa")
+        analytics.logEvent("InitScreen", bundle) //No anda
+
+//        start
+        emailEditText.setText("felipe@gmail.com")
+        passwordEditText.setText("felipe")
     }
 
     private fun initLogInButton() {
 
         //todo ver si lo metemos en el vm
-        /*
+
         val userDataObserver = Observer<UserData>{
-            if (it.status){
+            if (it.status == "logged in"){
                 Toast.makeText(context,"Logueado correctamente", Toast.LENGTH_SHORT).show()
-                showHome(emailEditText.toString())
+                showHome(emailEditText.text.toString())
             }
             else{
-                Toast.makeText(context,"Logueado incorrectamente", Toast.LENGTH_SHORT).show()
+                if (it.status =="not logged in"){
+                    Toast.makeText(context,"Datos incorrectos", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
@@ -64,19 +69,35 @@ class LoginFragment : Fragment() {
 
         logInButton.setOnClickListener{
             loginViewModel.logIn(emailEditText.text.toString(),
-                passwordEditText.text.toString())*/
+                passwordEditText.text.toString())
+        }
     }
 
     private fun initSignInButton() {
-        /*
+
+        val userDataObserver = Observer<UserData>{
+            if (it.status == "signed in"){
+                Toast.makeText(context,"Registro completado", Toast.LENGTH_SHORT).show()
+                showHome(emailEditText.text.toString())
+            }
+            else{
+                if (it.status == "not signed in"){
+                    Toast.makeText(context,"Registro fallido", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        loginViewModel.completeSignIn().observe(viewLifecycleOwner,userDataObserver)
+
         singUpButton.setOnClickListener {
-            loginViewModel.signUp(emailEditText.text.toString(),passwordEditText.text.toString())
-        }*/
+            loginViewModel.signUp(emailEditText.text.toString(),
+                    passwordEditText.text.toString())
+        }
+
     }
 
-    private fun showHome(email: String) {/*
-        val action = LoginFragmentDirections.actionLoginFragmentToMainFragment("felipe@gmail.com")
-        findNavController().navigate(action)*/
+    private fun showHome(email: String) {
+        val action = LoginFragmentDirections.actionLoginFragmentToMainFragment(emailEditText.text.toString())
+        findNavController().navigate(action)
     }
-
 }

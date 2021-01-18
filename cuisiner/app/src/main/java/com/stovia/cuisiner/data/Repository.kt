@@ -1,5 +1,7 @@
 package com.stovia.cuisiner.data
 
+import android.util.Log
+import android.util.PrintStreamPrinter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
@@ -33,30 +35,35 @@ class Repository {
         return mutableData
     }
 
-    fun logInUser(email: String, password: String): MutableLiveData<UserData> {
-        val mutableUserData = MutableLiveData<UserData>()
+    fun logInUser(email: String, password: String) : MutableLiveData<UserData> {
+        val mutableUserData = MutableLiveData<UserData>() //esta bien dejarlo afuerA?
         firebaseAuth.signInWithEmailAndPassword(email,
             password).addOnCompleteListener {
             //Se notifica si la operacion ha sido satifactoria
             if(it.isSuccessful){
-                mutableUserData.value = UserData("MENEM",true)
+                mutableUserData.value = UserData("default","logged in")
             } else {
-                mutableUserData.value = UserData("MENEMn't",false)
+                mutableUserData.value = UserData("default","not logged in")
             }
         }
         return mutableUserData
     }
 
-    fun signInUser(email: String, password: String) {
+    fun signInUser(email: String, password: String) : MutableLiveData<UserData>{
+        val mutableUserData = MutableLiveData<UserData>() //esta bien dejarlo afuerA?
         firebaseAuth.createUserWithEmailAndPassword(email,
             password).addOnCompleteListener {
             //Se notifica si la operacion ha sido satifactoria
+            print("LLEGAMOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
             if (it.isSuccessful) {
-
+                mutableUserData.value = UserData("default","signed in")
+                print("SIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
             } else {
-
+                mutableUserData.value = UserData("default","not signed in")
+                print("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
             }
         }
+        return mutableUserData
     }
 
     fun saveData(email: String, cantidad: String, unidad: String, nombre: String){

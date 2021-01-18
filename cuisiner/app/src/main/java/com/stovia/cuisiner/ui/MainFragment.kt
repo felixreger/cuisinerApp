@@ -26,7 +26,8 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val email = MainFragmentArgs.fromBundle(requireArguments()).email
-        Toast.makeText(context, email, Toast.LENGTH_SHORT).show()
+        Log.d("recibido",email)
+        Toast.makeText(context, "email: $email", Toast.LENGTH_SHORT).show()
 
         getProductListButton.setOnClickListener {
             val action = MainFragmentDirections.actionMainFragmentToListaStock()

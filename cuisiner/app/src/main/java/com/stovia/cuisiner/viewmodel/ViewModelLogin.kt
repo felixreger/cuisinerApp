@@ -20,12 +20,16 @@ class ViewModelLogin :  ViewModel(){
     }
 
     fun signUp(email: String, password: String) {
-        if (email.isNotEmpty() && password.isNotEmpty()){
-            logInSignUpUseCase.signInUser(email,password)
+        logInSignUpUseCase.signInUser(email,password).observeForever{
+            userLiveData.value = it
         }
     }
 
     fun completeLogin(): MutableLiveData<UserData> {
+        return userLiveData
+    }
+
+    fun completeSignIn(): MutableLiveData<UserData> {
         return userLiveData
     }
 }
