@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 
 import com.stovia.cuisiner.R
 import com.stovia.cuisiner.ui.model.Product
@@ -17,30 +18,19 @@ import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment() {
 
-    private var viewModel = ViewModelMainActivity()
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val email = MainFragmentArgs.fromBundle(requireArguments()).email
-        Toast.makeText(context,email, Toast.LENGTH_SHORT).show()
-
-        viewModel = ViewModelProviders.of(this).get(ViewModelMainActivity::class.java)
-        val productListObserver = Observer<List<Product>>(){
-            Log.d("Product", it.toString())
-        }
-
-        viewModel.getProductListLiveData().observe(viewLifecycleOwner,productListObserver)
+        Toast.makeText(context, email, Toast.LENGTH_SHORT).show()
 
         getProductListButton.setOnClickListener {
-            viewModel.getProductList()
+            val action = MainFragmentDirections.actionMainFragmentToListaStock()
+            findNavController().navigate(action)
         }
 
         goToRecipeListButton.setOnClickListener{

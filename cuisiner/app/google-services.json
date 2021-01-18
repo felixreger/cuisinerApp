@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "604044718090",
+    "project_id": "primer-app-210d5",
+    "storage_bucket": "primer-app-210d5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:604044718090:android:74250037553847f5d52ff3",
+        "android_client_info": {
+          "package_name": "com.stovia.cuisiner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "604044718090-qusnnh4b4eiv4nbhbfvp9k8d3sl0hadb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIap18_-56ku3Oj06GCpgPsM9_rNeWVok"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "604044718090-qusnnh4b4eiv4nbhbfvp9k8d3sl0hadb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,7 +32,6 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //this.email = ListaStockArgs.fromBundle(requireArguments()).email
         Log.d("Valor recibido: ", email)
     }
 
@@ -46,11 +46,14 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
         adapter = Adapter(requireContext(), this)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
+        Log.d("Valor recibido de email", email)
         observeData(email)
 
         addProductButton.setOnClickListener {
             //val action = ListaStockDirections.actionListaStockToAddStock("felipe@gmail.com")
             //findNavController().navigate(action)
+            Toast.makeText(context, "Add Product, No implementado", Toast.LENGTH_SHORT).show()
+
         }
     }
 
@@ -65,5 +68,6 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
         val producto = adapter.getProductIndex(position)
         //val action2 = ListaStockDirections.actionListaStockToEditStock("felipe@gmail.com", producto)
         //findNavController().navigate(action2)
+        Toast.makeText(context, "On Item click No implementado", Toast.LENGTH_SHORT).show()
     }
 }

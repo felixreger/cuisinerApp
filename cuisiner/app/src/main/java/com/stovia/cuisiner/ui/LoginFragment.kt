@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : Fragment() {
 
-    var loginViewModel = ViewModelLogin()
+    //var loginViewModel = ViewModelLogin()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -29,26 +29,27 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        this.loginViewModel = ViewModelProviders.of(this).get(ViewModelLogin::class.java)
+        //this.loginViewModel = ViewModelProviders.of(this).get(ViewModelLogin::class.java)
 
-        initSignInButton()
-        initLogInButton()
+        //initSignInButton()
+        //initLogInButton()
 
 
         //analytics
-        val analytics = FirebaseAnalytics.getInstance(requireContext())
-        val bundle = Bundle()
-        bundle.putString("message", "Integracion de Firebase completa")
-        analytics.logEvent("InitScreen", bundle) //No anda
+        //val analytics = FirebaseAnalytics.getInstance(requireContext())
+        //val bundle = Bundle()
+        //bundle.putString("message", "Integracion de Firebase completa")
+        //analytics.logEvent("InitScreen", bundle) //No anda
 
         //start
-        emailEditText.setText("felipe@gmail.com")
-        passwordEditText.setText("felipe")
+        //emailEditText.setText("felipe@gmail.com")
+        //passwordEditText.setText("felipe")
     }
 
     private fun initLogInButton() {
 
         //todo ver si lo metemos en el vm
+        /*
         val userDataObserver = Observer<UserData>{
             if (it.status){
                 Toast.makeText(context,"Logueado correctamente", Toast.LENGTH_SHORT).show()
@@ -63,18 +64,19 @@ class LoginFragment : Fragment() {
 
         logInButton.setOnClickListener{
             loginViewModel.logIn(emailEditText.text.toString(),
-                passwordEditText.text.toString())
-        }
+                passwordEditText.text.toString())*/
     }
 
     private fun initSignInButton() {
+        /*
         singUpButton.setOnClickListener {
             loginViewModel.signUp(emailEditText.text.toString(),passwordEditText.text.toString())
-        }
+        }*/
     }
 
-    private fun showHome(email: String) {
+    private fun showHome(email: String) {/*
         val action = LoginFragmentDirections.actionLoginFragmentToMainFragment("felipe@gmail.com")
-        findNavController().navigate(action)
+        findNavController().navigate(action)*/
     }
+
 }

@@ -40,10 +40,12 @@ class EditStock : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         guardarButton.setOnClickListener {
+            /*
             repo.saveData(email,
                 AmountProductEditText.text.toString().toLowerCase(Locale.ROOT),
                 UnitEditText.text.toString().toLowerCase(),
-                nombreDeProductoTextView.text.toString().toLowerCase(Locale.ROOT))
+                nombreDeProductoTextView.text.toString().toLowerCase(Locale.ROOT))*/
+
         }
 
         borrarButton.setOnClickListener {
