@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_loginFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_loginFragment_self"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
@@ -29,6 +32,9 @@
             android:name="email"
             app:argType="string"
             android:defaultValue="errormail" />
+        <action
+            android:id="@+id/action_mainFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/listaStock"
@@ -41,6 +47,10 @@
         <action
             android:id="@+id/action_listaStock_to_editStock"
             app:destination="@id/editStock" />
+        <argument
+            android:name="email"
+            app:argType="string"
+            android:defaultValue="default email" />
     </fragment>
     <fragment
         android:id="@+id/addStock"

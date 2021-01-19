@@ -66,15 +66,15 @@ class Repository {
         return mutableUserData
     }
 
-    fun saveData(email: String, cantidad: String, unidad: String, nombre: String){
+    fun saveData(email: String, amount: String, unit: String, productName: String){
         db.collection("usuarios") //Busco en usuarios
             .document(email ?: "") //Por mail
             .collection("productos") //Busco en productos
-            .document(nombre) //Por nombre de producto
+            .document(productName) //Por nombre de producto
             .set( //Se crea un documento por cada users y la clave es "email"
                 hashMapOf(
-                    "cantidad" to cantidad, //todo ver si se puede pasar numeric, definir en base a features
-                    "unidad" to unidad
+                    "cantidad" to amount, //todo ver si se puede pasar numeric, definir en base a features
+                    "unidad" to unit
                 )
             )
     }

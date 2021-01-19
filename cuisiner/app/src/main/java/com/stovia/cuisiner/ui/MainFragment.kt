@@ -7,13 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
 
 import com.stovia.cuisiner.R
-import com.stovia.cuisiner.ui.model.Product
-import com.stovia.cuisiner.viewmodel.ViewModelMainActivity
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment() {
@@ -30,7 +28,7 @@ class MainFragment : Fragment() {
         Toast.makeText(context, "email: $email", Toast.LENGTH_SHORT).show()
 
         getProductListButton.setOnClickListener {
-            val action = MainFragmentDirections.actionMainFragmentToListaStock()
+            val action = MainFragmentDirections.actionMainFragmentToListaStock(email)
             findNavController().navigate(action)
         }
 
@@ -39,7 +37,14 @@ class MainFragment : Fragment() {
         }
 
         goToProductListButton.setOnClickListener {
-            Toast.makeText(context, "Lista de productos No implementado", Toast.LENGTH_SHORT).show()
+            val action = MainFragmentDirections.actionMainFragmentToListaStock(email)
+            findNavController().navigate(action)
+        }
+
+        logOut.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            val action = MainFragmentDirections.actionMainFragmentToLoginFragment()
+            findNavController().navigate(action)
         }
     }
 

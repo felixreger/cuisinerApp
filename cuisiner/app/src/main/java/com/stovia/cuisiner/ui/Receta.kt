@@ -56,11 +56,11 @@ class Receta : Fragment() , Adapter.OnItemClickListener {
 //            val action = ListaStockDirections.actionListaStockToAddStock("felipe@gmail.com")
             findNavController().navigate(action)
         }
-
-        saveProductButton.setOnClickListener {
-            val repo = Repository()
-//            repo.addAll(listOfProducts, "felipe@gmail.com")
-        }
+//
+//        saveProductButton.setOnClickListener {
+//            val repo = Repository()
+////            repo.addAll(listOfProducts, "felipe@gmail.com")
+//        }
     }
 
     private fun observeData(email : String){

@@ -5,16 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProviders
 import com.stovia.cuisiner.R
 import com.stovia.cuisiner.data.Repository
+import com.stovia.cuisiner.viewmodel.ViewModelAddStock
 import kotlinx.android.synthetic.main.fragment_add_stock.*
-import java.util.*
 
 
 class AddStock : Fragment() {
 
     private val repo = Repository()
     private lateinit var email: String
+
+    private val viewModel by lazy { ViewModelProviders.of(this).get(ViewModelAddStock::class.java) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +37,9 @@ class AddStock : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         saveProductButton.setOnClickListener{
-            repo.saveData(email, AmountProductEditText.text.toString().toLowerCase(Locale.ROOT), UnitEditText.text.toString().toLowerCase(),
-                ProductNameEditText.text.toString().toLowerCase(Locale.ROOT))
+            viewModel.saveData(email,ProductNameEditText.text.toString(),
+                    AmountProductEditText.text.toString(),
+                    UnitEditText.text.toString())
         }
     }
 

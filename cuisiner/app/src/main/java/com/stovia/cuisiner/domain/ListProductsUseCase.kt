@@ -9,9 +9,9 @@ class ListProductsUseCase{
 
     private val repository = Repository()
     //todo parametros.
-    fun getProductList() : LiveData<MutableList<Product>> {
+    fun getProductList(email:String) : LiveData<MutableList<Product>> {
         val mutableData = MutableLiveData<MutableList<Product>>()
-        repository.getUserProducts("felipe@gmail.com").observeForever {
+        repository.getUserProducts(email).observeForever {
             mutableData.value = it
         }
         return mutableData

@@ -83,6 +83,8 @@ class LoginFragment : Fragment() {
             else{
                 if (it.status == "not signed in"){
                     Toast.makeText(context,"Registro fallido", Toast.LENGTH_SHORT).show()
+                    val action = LoginFragmentDirections.actionLoginFragmentSelf()
+                    findNavController().navigate(action)
                 }
             }
         }
@@ -97,7 +99,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun showHome(email: String) {
-        val action = LoginFragmentDirections.actionLoginFragmentToMainFragment(emailEditText.text.toString())
+        val action = LoginFragmentDirections.actionLoginFragmentToMainFragment(email)
         findNavController().navigate(action)
     }
 }
