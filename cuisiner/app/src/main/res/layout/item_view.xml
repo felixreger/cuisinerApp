@@ -17,29 +17,63 @@
             android:padding="20dp">
 
 
-        <LinearLayout
-                android:layout_width="344dp"
-                android:layout_height="119dp"
-                android:orientation="vertical">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="339dp"
+            android:layout_height="70dp"
+            android:orientation="vertical">
 
             <TextView
-                    android:id="@+id/nombreDeProductoTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:text="nombre_de_producto" />
+                android:id="@+id/nombreDeProductoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="nombre_de_producto"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_conversion_absoluteHeight="40dp"
+                tools:layout_conversion_absoluteWidth="344dp" />
 
             <TextView
-                    android:id="@+id/cantidadTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:text="cantidad_de_producto" />
+                android:id="@+id/cantidadTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="11dp"
+                android:layout_marginBottom="9dp"
+                android:text="cantidad_de_producto"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nombreDeProductoTextView"
+                tools:layout_conversion_absoluteHeight="40dp"
+                tools:layout_conversion_absoluteWidth="99dp" />
 
             <TextView
-                    android:id="@+id/UnidadDeCantidadTextVIew"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:text="unidad_de_cantidad" />
-        </LinearLayout>
+                android:id="@+id/UnidadDeCantidadTextVIew"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginBottom="10dp"
+                android:text="unidad_de_cantidad"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/cantidadTextView"
+                tools:layout_conversion_absoluteHeight="40dp"
+                tools:layout_conversion_absoluteWidth="88dp" />
+
+            <ImageView
+                android:id="@+id/checked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="23dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/item_checked"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
