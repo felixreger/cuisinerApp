@@ -1,9 +1,8 @@
 package com.stovia.cuisiner.data
 
-import android.util.Log
-import android.util.PrintStreamPrinter
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.tasks.Task
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -16,6 +15,8 @@ class Repository {
 
     private val db = FirebaseFirestore.getInstance()
     private var firebaseAuth = FirebaseAuth.getInstance()
+
+    private var nombreReceta : String?=null
 
     fun getUserProducts(email: String): LiveData<MutableList<Product>> {
         val mutableData = MutableLiveData<MutableList<Product>>()
@@ -92,5 +93,53 @@ class Repository {
                 .document(email ?: "") //Por mail
                 .collection("productos") //Busco en productos
                 .document(productName).delete()
+    }
+
+    fun saveRecipe(product: String): LiveData<Boolean>{
+        val mutableUserData = MutableLiveData<Boolean>()
+            db.collection("usuarios") //Busco en usuarios
+                .document("felixregert@gmail.com" ?: "") //Por mail
+                .collection(nombreReceta!!) //Busco en productos
+                .document(product) //Por nombre de producto
+                .set( //Se crea un documento por cada users y la clave es "email"
+                    hashMapOf(
+                        "cantidad" to "10",
+                        "unidad" to "kg"
+                    )
+                ).addOnCompleteListener {
+                    mutableUserData.value = it.isSuccessful
+                }
+        return mutableUserData
+    }
+
+    fun getUserRecipe(email: String, tag: Boolean): LiveData<MutableList<String>>{
+        val mutableData = MutableLiveData<MutableList<String>>()
+        //Si tag es true, entonces me piden listar recetas
+        //Si es false, me piden listar nombre de productos que tengo
+
+        val recipe = mutableListOf<String>()
+        if(tag){
+            recipe.add("Pan dulce")
+            recipe.add("Pan")
+            recipe.add("Pan casero")
+            recipe.add("Asado")
+            recipe.add("Guiso")
+
+        }else{
+            recipe.add("Azucar")
+            recipe.add("Agua")
+            recipe.add("Sal")
+            recipe.add("Manteca")
+            recipe.add("Cafe")
+            recipe.add("Pimienta")
+            recipe.add("Azufre")
+            recipe.add("Miel")
+        }
+        mutableData.value = recipe
+        return mutableData
+    }
+
+    fun setRecipeName(nombre: String) {
+        nombreReceta = nombre
     }
 }

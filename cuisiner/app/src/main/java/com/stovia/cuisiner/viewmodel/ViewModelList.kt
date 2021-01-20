@@ -12,7 +12,7 @@ class ViewModelList :  ViewModel(){
     private val listProductsUseCase = ListProductsUseCase()
     var listData = MutableLiveData<MutableList<Product>>()
 
-    fun getProductList(email : String) {
+    fun getProductList(email:String) {
         listProductsUseCase.getProductList(email).observeForever {
             setProductList(it)
         }

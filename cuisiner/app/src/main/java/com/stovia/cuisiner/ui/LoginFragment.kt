@@ -21,8 +21,6 @@ class LoginFragment : Fragment() {
 
     var loginViewModel = ViewModelLogin()
 
-
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_login, container, false)
@@ -33,18 +31,16 @@ class LoginFragment : Fragment() {
 
         this.loginViewModel = ViewModelProviders.of(this).get(ViewModelLogin::class.java)
 
-
-
         initSignInButton()
         initLogInButton()
 
-//        analytics
+        //analytics
         val analytics = FirebaseAnalytics.getInstance(requireContext())
         val bundle = Bundle()
         bundle.putString("message", "Integracion de Firebase completa")
         analytics.logEvent("InitScreen", bundle) //No anda
 
-//        start
+        //start
         emailEditText.setText("felipe@gmail.com")
         passwordEditText.setText("felipe")
     }
@@ -52,7 +48,6 @@ class LoginFragment : Fragment() {
     private fun initLogInButton() {
 
         //todo ver si lo metemos en el vm
-
         val userDataObserver = Observer<UserData>{
             if (it.status == "logged in"){
                 Toast.makeText(context,"Logueado correctamente", Toast.LENGTH_SHORT).show()
@@ -68,8 +63,7 @@ class LoginFragment : Fragment() {
         loginViewModel.completeLogin().observe(viewLifecycleOwner,userDataObserver)
 
         logInButton.setOnClickListener{
-            loginViewModel.logIn(emailEditText.text.toString(),
-                passwordEditText.text.toString())
+            loginViewModel.logIn(emailEditText.text.toString(), passwordEditText.text.toString())
         }
     }
 
@@ -92,10 +86,8 @@ class LoginFragment : Fragment() {
         loginViewModel.completeSignIn().observe(viewLifecycleOwner,userDataObserver)
 
         singUpButton.setOnClickListener {
-            loginViewModel.signUp(emailEditText.text.toString(),
-                    passwordEditText.text.toString())
+            loginViewModel.signUp(emailEditText.text.toString(), passwordEditText.text.toString())
         }
-
     }
 
     private fun showHome(email: String) {

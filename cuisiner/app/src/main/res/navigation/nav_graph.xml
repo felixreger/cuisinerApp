@@ -77,15 +77,17 @@
     </fragment>
     <fragment
         android:id="@+id/receta"
-        android:name="com.stovia.cuisiner.ui.Receta"
+        android:name="com.stovia.cuisiner.ui.recipe.Recipe"
         android:label="fragment_receta"
-        tools:layout="@layout/fragment_receta" >
-        <action
-            android:id="@+id/action_receta_to_listaStock"
-            app:destination="@id/listaStock" />
+        tools:layout="@layout/fragment_recipe" >
         <argument
             android:name="email"
             app:argType="string"
-            android:defaultValue="error mail" />
+            android:defaultValue="felixregert@gmail.com" />
+        <action android:id="@+id/action_receta_to_listProductsRecipe" app:destination="@id/listProductsRecipe"/>
+    </fragment>
+    <fragment android:id="@+id/listProductsRecipe" android:name="com.stovia.cuisiner.ui.recipe.ListRecipe"
+              android:label="fragment_list_products_recipe" tools:layout="@layout/fragment_list_recipe">
+        <argument android:name="email" app:argType="string" android:defaultValue="felixregert@gmail.com"/>
     </fragment>
 </navigation>

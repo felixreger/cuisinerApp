@@ -33,7 +33,9 @@ class MainFragment : Fragment() {
         }
 
         goToRecipeListButton.setOnClickListener{
-            Toast.makeText(context, "Lista de recetas No implementado", Toast.LENGTH_SHORT).show()
+            val action = MainFragmentDirections.actionMainFragmentToReceta("felixregert@gmail.com")
+            findNavController().navigate(action)
+            //Toast.makeText(context, "Lista de recetas No implementado", Toast.LENGTH_SHORT).show()
         }
 
         goToProductListButton.setOnClickListener {
@@ -46,6 +48,6 @@ class MainFragment : Fragment() {
             val action = MainFragmentDirections.actionMainFragmentToLoginFragment()
             findNavController().navigate(action)
         }
-    }
 
-}
+    }}
+
