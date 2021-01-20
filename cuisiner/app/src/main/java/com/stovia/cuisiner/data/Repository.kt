@@ -54,13 +54,10 @@ class Repository {
         firebaseAuth.createUserWithEmailAndPassword(email,
             password).addOnCompleteListener {
             //Se notifica si la operacion ha sido satifactoria
-            print("LLEGAMOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
             if (it.isSuccessful) {
                 mutableUserData.value = UserData("default","signed in")
-                print("SIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
             } else {
                 mutableUserData.value = UserData("default","not signed in")
-                print("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
             }
         }
         return mutableUserData

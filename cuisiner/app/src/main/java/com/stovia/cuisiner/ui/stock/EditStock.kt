@@ -23,7 +23,6 @@ import java.util.*
 
 class EditStock : Fragment() {
 
-    private val repo = Repository()
     private lateinit var email: String
     private lateinit var product: Product
     private val viewModelEditStock = ViewModelEditStock()
@@ -47,13 +46,13 @@ class EditStock : Fragment() {
 
         guardarButton.setOnClickListener {
             viewModelEditStock.saveData(email,
-                    editTextTextProductName.text.toString(),
-                    editTextTextAmountName.text.toString(),
-                    editTextTextUnitName.text.toString())
+                    editTextTextProductName.text.toString().toLowerCase(Locale.ROOT),
+                    editTextTextAmountName.text.toString().toLowerCase(Locale.ROOT),
+                    editTextTextUnitName.text.toString().toLowerCase(Locale.ROOT))
         }
 
         borrarButton.setOnClickListener {
-            viewModelDeleteStock.deleteProduct(email,editTextTextProductName.text.toString())
+            viewModelDeleteStock.deleteProduct(email,editTextTextProductName.text.toString().toLowerCase(Locale.ROOT))
         }
     }
 
