@@ -78,4 +78,22 @@ class Repository {
                 )
             )
     }
+
+    fun updateData(email: String, amount: String, unit: String, productName: String){
+        db.collection("usuarios") //Busco en usuarios
+                .document(email ?: "") //Por mail
+                .collection("productos") //Busco en productos
+                .document(productName) //Por nombre de producto
+                .update(mapOf(
+                    "cantidad" to amount,
+                    "unidad" to unit
+                ))
+    }
+
+    fun deleteProduct(email: String,productName: String){
+        db.collection("usuarios") //Busco en usuarios
+                .document(email ?: "") //Por mail
+                .collection("productos") //Busco en productos
+                .document(productName).delete()
+    }
 }

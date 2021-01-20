@@ -14,21 +14,25 @@ import kotlinx.android.synthetic.main.item_view.*
 import com.stovia.cuisiner.R
 import com.stovia.cuisiner.data.Repository
 import com.stovia.cuisiner.ui.model.Product
+import com.stovia.cuisiner.viewmodel.ViewModelDeleteStock
+import com.stovia.cuisiner.viewmodel.ViewModelEditStock
 import java.util.*
+
+
 
 
 class EditStock : Fragment() {
 
     private val repo = Repository()
     private lateinit var email: String
-    private lateinit var producto: Product
+    private lateinit var product: Product
+    private val viewModelEditStock = ViewModelEditStock()
+    private val viewModelDeleteStock = ViewModelDeleteStock()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.producto = EditStockArgs.fromBundle(requireArguments()).product
+        this.product = EditStockArgs.fromBundle(requireArguments()).product
         this.email = EditStockArgs.fromBundle(requireArguments()).email
-        Toast.makeText(context, this.producto.toString(), Toast.LENGTH_SHORT).show()
-        Toast.makeText(context,this.email, Toast.LENGTH_SHORT).show()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
@@ -39,17 +43,24 @@ class EditStock : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        guardarButton.setOnClickListener {
-            /*
-            repo.saveData(email,
-                AmountProductEditText.text.toString().toLowerCase(Locale.ROOT),
-                UnitEditText.text.toString().toLowerCase(),
-                nombreDeProductoTextView.text.toString().toLowerCase(Locale.ROOT))*/
+        initFields()
 
+        guardarButton.setOnClickListener {
+            viewModelEditStock.saveData(email,
+                    editTextTextProductName.text.toString(),
+                    editTextTextAmountName.text.toString(),
+                    editTextTextUnitName.text.toString())
         }
 
         borrarButton.setOnClickListener {
+            viewModelDeleteStock.deleteProduct(email,editTextTextProductName.text.toString())
         }
+    }
+
+    private fun initFields() {
+        editTextTextProductName.setText(product.nombre.toString())
+        editTextTextAmountName.setText(product.cantidad.toString())
+        editTextTextUnitName.setText(product.unidad.toString())
     }
 
 }

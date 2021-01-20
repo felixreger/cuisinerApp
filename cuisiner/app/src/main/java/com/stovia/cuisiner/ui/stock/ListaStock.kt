@@ -58,9 +58,9 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {
-        val producto = adapter.getProductIndex(position)
-        //val action2 = ListaStockDirections.actionListaStockToEditStock("felipe@gmail.com", producto)
-        //findNavController().navigate(action2)
-        Toast.makeText(context, "Click on $position", Toast.LENGTH_SHORT).show()
+        val product = adapter.getProductIndex(position)
+        Toast.makeText(context, "Click on ${product.nombre}", Toast.LENGTH_SHORT).show()
+        val action2 = ListaStockDirections.actionListaStockToEditStock(product, this.email)
+        findNavController().navigate(action2)
     }
 }
