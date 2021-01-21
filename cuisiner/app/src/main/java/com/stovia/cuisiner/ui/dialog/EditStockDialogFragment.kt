@@ -36,7 +36,6 @@ class EditStockDialogFragment : DialogFragment() {
         }
 
         rootView.cancelButton.setOnClickListener {
-            viewModelDeleteStock.deleteProduct(email,editTextTextProductName.text.toString().toLowerCase(Locale.ROOT))
             dismiss()
         }
         return rootView

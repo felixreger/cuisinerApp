@@ -30,7 +30,6 @@ class Receta : Fragment() , Adapter.OnItemClickListener {
 
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(ViewModelList::class.java) }
-    //se vuelve el de la lsita
 
     override fun onCreate(savedInstanceState: Bundle?) {
 

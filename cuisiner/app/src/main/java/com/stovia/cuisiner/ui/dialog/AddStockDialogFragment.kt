@@ -27,7 +27,8 @@ class AddStockDialogFragment : DialogFragment() {
         email = requireArguments().getString("email").toString()
 
         rootView.saveButton.setOnClickListener{
-            viewModel.saveData(email,nameEditText.text.toString(),
+            viewModel.saveData(email,
+                nameEditText.text.toString(),
                 amountEditText.text.toString(),
                 unitEditText.text.toString())
             dismiss()
