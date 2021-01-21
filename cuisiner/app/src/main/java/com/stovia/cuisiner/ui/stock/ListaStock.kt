@@ -10,9 +10,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.play.core.splitinstall.f
 import com.stovia.cuisiner.R
+import com.stovia.cuisiner.ui.dialog.AddStockDialogFragment
 import com.stovia.cuisiner.ui.dialog.EditStockDialogFragment
+import com.stovia.cuisiner.viewmodel.ViewModelEditStock
 import com.stovia.cuisiner.viewmodel.ViewModelList
 import com.stovia.cuisiner.viewmodel.adapter.Adapter
 import kotlinx.android.synthetic.main.fragment_lista_stock.*
@@ -31,11 +32,7 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
         viewModel.getProductList(email)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_lista_stock, container, false)
     }
@@ -46,15 +43,20 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
         adapter = Adapter(requireContext(), this) //todo ver si meter el adapter en el vm
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
-        observeData(email)
+        observeData()
 
         addProductButton.setOnClickListener {
-            val action = ListaStockDirections.actionListaStockToAddStock(email)
-            findNavController().navigate(action)
+//            val action = ListaStockDirections.actionListaStockToAddStock(email)
+//            findNavController().navigate(action)
+            val dialogFragment = AddStockDialogFragment()
+            val args = Bundle()
+            args.putString("email",email)
+            dialogFragment.arguments = args
+            fragmentManager?.let { it1 -> dialogFragment.show(it1, "custom dialog") }
         }
     }
 
-    private fun observeData(email: String){
+    private fun observeData() {
         viewModel.getProductListLiveData().observe(viewLifecycleOwner, Observer {
             adapter.setDataList(it)
             adapter.notifyDataSetChanged()
