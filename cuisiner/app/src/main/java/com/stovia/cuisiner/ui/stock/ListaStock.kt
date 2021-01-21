@@ -69,6 +69,7 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
         val dialogFragment = EditStockDialogFragment()
 
         val args = Bundle()
+        args.putString("email",email)
         args.putStringArrayList("productData", arrayListOf(
             product.nombre,
             product.cantidad,

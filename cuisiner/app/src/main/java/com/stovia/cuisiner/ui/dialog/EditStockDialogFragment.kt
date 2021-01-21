@@ -8,25 +8,35 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.stovia.cuisiner.R
+import com.stovia.cuisiner.ui.model.Product
+import com.stovia.cuisiner.viewmodel.ViewModelDeleteStock
+import com.stovia.cuisiner.viewmodel.ViewModelEditStock
+import kotlinx.android.synthetic.main.fragment_edit_stock.*
 import kotlinx.android.synthetic.main.fragment_edit_stock_dialog.view.*
+import java.util.*
 
 
 class EditStockDialogFragment : DialogFragment() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val rootView: View = inflater.inflate(R.layout.fragment_edit_stock_dialog, container, false)
+    private lateinit var email: String
+    private val viewModelEditStock = ViewModelEditStock()
+    private val viewModelDeleteStock = ViewModelDeleteStock()
 
+    override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?    ): View? {
+        val rootView: View = inflater.inflate(R.layout.fragment_edit_stock_dialog, container, false)
+        email = requireArguments().getString("email").toString()
         initEditText(rootView)
 
         rootView.saveButton.setOnClickListener {
+            viewModelEditStock.saveData(email,
+                rootView.dialogHeader.text.toString().toLowerCase(Locale.ROOT),
+                rootView.unitEditText.text.toString().toLowerCase(Locale.ROOT),
+                rootView.amountEditText.text.toString().toLowerCase(Locale.ROOT))
             dismiss()
         }
 
         rootView.cancelButton.setOnClickListener {
+            viewModelDeleteStock.deleteProduct(email,editTextTextProductName.text.toString().toLowerCase(Locale.ROOT))
             dismiss()
         }
         return rootView
