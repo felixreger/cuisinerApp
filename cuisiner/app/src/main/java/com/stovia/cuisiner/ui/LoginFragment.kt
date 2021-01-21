@@ -33,8 +33,6 @@ class LoginFragment : Fragment() {
 
         this.loginViewModel = ViewModelProviders.of(this).get(ViewModelLogin::class.java)
 
-
-
         initSignInButton()
         initLogInButton()
 

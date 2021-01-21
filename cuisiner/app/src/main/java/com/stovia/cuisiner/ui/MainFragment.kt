@@ -7,11 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
 
 import com.stovia.cuisiner.R
+import com.stovia.cuisiner.dialog.EditStockDialogFragment
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment() {
@@ -45,6 +47,11 @@ class MainFragment : Fragment() {
             FirebaseAuth.getInstance().signOut()
             val action = MainFragmentDirections.actionMainFragmentToLoginFragment()
             findNavController().navigate(action)
+        }
+
+        customDialogButton.setOnClickListener {
+            var dialog = EditStockDialogFragment()
+            fragmentManager?.let { it1 -> dialog.show(it1,"custom dialog") }
         }
     }
 
