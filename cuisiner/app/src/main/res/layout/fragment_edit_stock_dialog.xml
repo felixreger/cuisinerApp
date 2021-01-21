@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".dialog.EditStockDialogFragment">
+    tools:context=".ui.dialog.EditStockDialogFragment">
 
     <TextView
         android:id="@+id/dialogHeader"
@@ -29,7 +29,7 @@
         app:layout_constraintTop_toBottomOf="@+id/dialogHeader" />
 
     <EditText
-        android:id="@+id/amountEditText2"
+        android:id="@+id/unitEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
@@ -39,25 +39,25 @@
         app:layout_constraintTop_toBottomOf="@+id/amountEditText" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/cancelButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="155dp"
-        android:text="Button"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
+        android:text="cancel"
+        app:layout_constraintEnd_toStartOf="@+id/saveButton"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dialogHeader" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="155dp"
-        android:text="Button"
+        android:text="save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/button"
+        app:layout_constraintStart_toEndOf="@+id/cancelButton"
         app:layout_constraintTop_toBottomOf="@+id/dialogHeader" />
 
 
