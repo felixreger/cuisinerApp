@@ -11,7 +11,6 @@ import com.stovia.cuisiner.R
 import com.stovia.cuisiner.ui.model.Product
 import com.stovia.cuisiner.viewmodel.stock.ViewModelDeleteStock
 import com.stovia.cuisiner.viewmodel.stock.ViewModelEditStock
-import kotlinx.android.synthetic.main.fragment_edit_stock.*
 import kotlinx.android.synthetic.main.fragment_edit_stock_dialog.view.*
 import java.util.*
 

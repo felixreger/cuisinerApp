@@ -30,26 +30,20 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/getProductListButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="100dp"
-            android:text="obtener lista" />
 
-        <Button
             android:id="@+id/goToProductListButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Lista de productos" />
+            android:text="Tus productos"
+            android:layout_marginTop="60dp"/>
 
         <Button
             android:id="@+id/goToRecipeListButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Recetas" />
+            android:text="Tus Recetas" />
         <Button
             android:text="SALIR"
             android:layout_width="match_parent"
