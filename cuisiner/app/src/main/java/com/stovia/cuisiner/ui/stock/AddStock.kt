@@ -27,7 +27,11 @@ class AddStock : DialogFragment() {
     }
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_stock, container, false)
     }
@@ -35,10 +39,12 @@ class AddStock : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        saveProductButton.setOnClickListener{
-            viewModel.saveData(email,ProductNameEditText.text.toString(),
-                    AmountProductEditText.text.toString(),
-                    UnitEditText.text.toString())
+        saveProductButton.setOnClickListener {
+            viewModel.saveData(
+                email, ProductNameEditText.text.toString(),
+                AmountProductEditText.text.toString(),
+                UnitEditText.text.toString()
+            )
         }
     }
 
