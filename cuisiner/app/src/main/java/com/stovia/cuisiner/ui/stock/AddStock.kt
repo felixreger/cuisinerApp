@@ -1,10 +1,12 @@
 package com.stovia.cuisiner.ui.stock
 
+import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
 import com.stovia.cuisiner.R
 import com.stovia.cuisiner.data.Repository
@@ -12,7 +14,7 @@ import com.stovia.cuisiner.viewmodel.stock.ViewModelAddStock
 import kotlinx.android.synthetic.main.fragment_add_stock.*
 
 
-class AddStock : Fragment() {
+class AddStock : DialogFragment() {
 
     private val repo = Repository()
     private lateinit var email: String
@@ -25,7 +27,11 @@ class AddStock : Fragment() {
     }
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_stock, container, false)
     }
@@ -33,10 +39,12 @@ class AddStock : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        saveProductButton.setOnClickListener{
-            viewModel.saveData(email,ProductNameEditText.text.toString(),
-                    AmountProductEditText.text.toString(),
-                    UnitEditText.text.toString())
+        saveProductButton.setOnClickListener {
+            viewModel.saveData(
+                email, ProductNameEditText.text.toString(),
+                AmountProductEditText.text.toString(),
+                UnitEditText.text.toString()
+            )
         }
     }
 

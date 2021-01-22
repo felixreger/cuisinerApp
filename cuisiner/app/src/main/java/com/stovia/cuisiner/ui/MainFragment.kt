@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
 
 import com.stovia.cuisiner.R
+import com.stovia.cuisiner.ui.dialog.EditStockDialogFragment
 import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment() {

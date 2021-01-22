@@ -29,6 +29,7 @@ class Adapter(private val context: Context, private val listener: OnItemClickLis
             val position = adapterPosition
             if(position != RecyclerView.NO_POSITION){
                 listener.onItemClick(position)
+//                notifyDataSetChanged()
             }
         }
     }

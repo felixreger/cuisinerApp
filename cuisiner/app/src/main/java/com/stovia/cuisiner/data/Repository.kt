@@ -83,7 +83,7 @@ class Repository {
         return mutableUserData
     }
 
-    fun saveData(email: String, amount: String, unit: String, productName: String){
+    fun saveData(email: String, amount: String, unit: String, productName: String): LiveData<MutableList<Product>> {
         db.collection("usuarios") //Busco en usuarios
             .document(email ?: "") //Por mail
             .collection("productos") //Busco en productos
@@ -94,9 +94,10 @@ class Repository {
                     "unidad" to unit
                 )
             )
+        return getUserProducts(email)
     }
 
-    fun updateData(email: String, amount: String, unit: String, productName: String){
+    fun updateData(email: String, amount: String, unit: String, productName: String): LiveData<MutableList<Product>> {
         db.collection("usuarios") //Busco en usuarios
                 .document(email ?: "") //Por mail
                 .collection("productos") //Busco en productos
@@ -105,13 +106,15 @@ class Repository {
                     "cantidad" to amount,
                     "unidad" to unit
                 ))
+        return getUserProducts(email)
     }
 
-    fun deleteProduct(email: String,productName: String){
+    fun deleteProduct(email: String,productName: String): LiveData<MutableList<Product>> {
         db.collection("usuarios") //Busco en usuarios
                 .document(email ?: "") //Por mail
                 .collection("productos") //Busco en productos
                 .document(productName).delete()
+        return getUserProducts(email)
     }
 
     fun saveRecipe(product: String): LiveData<Boolean>{
