@@ -1,8 +1,8 @@
 package com.stovia.cuisiner.data
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.android.gms.tasks.Task
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -11,7 +11,6 @@ import com.stovia.cuisiner.ui.model.Product
 import com.stovia.cuisiner.ui.model.UserData
 
 class Repository {
-
 
     private val db = FirebaseFirestore.getInstance()
     private var firebaseAuth = FirebaseAuth.getInstance()
@@ -24,6 +23,26 @@ class Repository {
             .document(email)
             .collection("productos")
             .get().addOnSuccessListener { result ->
+                val listData = mutableListOf<Product>()
+                for (document in result) {
+                    val cantidad = document.getString("cantidad")
+                    val unidad = document.getString("unidad")
+                    val usuario = Product(document.id, cantidad!!, unidad!!)
+                    listData.add(usuario)
+                }
+                mutableData.value = listData
+            }
+        return mutableData
+    }
+
+    //todo unificar
+    fun getIngredientProducts(email: String,nombre:String): LiveData<MutableList<Product>>{
+        val mutableData = MutableLiveData<MutableList<Product>>()
+        Log.d("PARAMETRO", nombre)
+        db.collection("usuarios")
+            .document(email)
+            .collection("Nombre de la receta")
+            .get().addOnSuccessListener { result  ->
                 val listData = mutableListOf<Product>()
                 for (document in result) {
                     val cantidad = document.getString("cantidad")
@@ -142,4 +161,6 @@ class Repository {
     fun setRecipeName(nombre: String) {
         nombreReceta = nombre
     }
+
+
 }

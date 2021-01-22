@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.stovia.cuisiner.R
 import com.stovia.cuisiner.data.Repository
-import com.stovia.cuisiner.viewmodel.ViewModelAddStock
+import com.stovia.cuisiner.viewmodel.stock.ViewModelAddStock
 import kotlinx.android.synthetic.main.fragment_add_stock.*
 
 

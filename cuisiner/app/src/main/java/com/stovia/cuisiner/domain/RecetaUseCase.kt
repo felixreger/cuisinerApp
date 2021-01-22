@@ -3,8 +3,7 @@ package com.stovia.cuisiner.domain
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.stovia.cuisiner.data.Repository
-import com.stovia.cuisiner.ui.model.Product
-import com.stovia.cuisiner.ui.model.UserData
+
 
 class RecetaUseCase {
     private val repository = Repository()

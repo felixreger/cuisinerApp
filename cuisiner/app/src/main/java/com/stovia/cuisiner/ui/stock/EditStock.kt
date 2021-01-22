@@ -5,17 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 
-import kotlinx.android.synthetic.main.fragment_add_stock.*
 import kotlinx.android.synthetic.main.fragment_edit_stock.*
-import kotlinx.android.synthetic.main.item_view.*
 
 import com.stovia.cuisiner.R
-import com.stovia.cuisiner.data.Repository
 import com.stovia.cuisiner.ui.model.Product
-import com.stovia.cuisiner.viewmodel.ViewModelDeleteStock
-import com.stovia.cuisiner.viewmodel.ViewModelEditStock
+import com.stovia.cuisiner.viewmodel.stock.ViewModelDeleteStock
+import com.stovia.cuisiner.viewmodel.stock.ViewModelEditStock
 import java.util.*
 
 

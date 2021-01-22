@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.stovia.cuisiner.R
-import com.stovia.cuisiner.ui.model.Product
 import com.stovia.cuisiner.viewmodel.recipe.ViewModelRecipe
 import com.stovia.cuisiner.viewmodel.adapter.AdapterRecipe
 import kotlinx.android.synthetic.main.fragment_recipe.*
@@ -20,8 +19,6 @@ class Recipe : Fragment() , AdapterRecipe.OnItemClickListener {
 
     private lateinit var adapter: AdapterRecipe
     private lateinit var email: String
-
-    private val listOfProducts = mutableListOf<Product>()
 
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(ViewModelRecipe::class.java)
@@ -61,6 +58,9 @@ class Recipe : Fragment() , AdapterRecipe.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {
-        TODO("Not yet implemented")
+        //Toast.makeText(context,"Click ", Toast.LENGTH_SHORT).show()
+        //Si aprieto en pan dulce, se carga esa pantalla.
+        val action = RecipeDirections.actionRecetaToIngredients(email, adapter.getRecipeIndex(position))
+        findNavController().navigate(action)
     }
 }

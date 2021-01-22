@@ -1,4 +1,4 @@
-package com.stovia.cuisiner.viewmodel
+package com.stovia.cuisiner.viewmodel.stock
 
 import androidx.lifecycle.ViewModel
 import com.stovia.cuisiner.domain.ManageStockUseCase

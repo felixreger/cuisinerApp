@@ -11,15 +11,15 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.stovia.cuisiner.R
+import com.stovia.cuisiner.viewmodel.adapter.AdapterRecipe
 
-import com.stovia.cuisiner.viewmodel.adapter.AdapterRecipeList
 import com.stovia.cuisiner.viewmodel.recipe.ViewModelListRecipe
 
 import kotlinx.android.synthetic.main.fragment_list_recipe.*
 
-class ListRecipe : Fragment(), AdapterRecipeList.OnItemClickListener {
+class ListRecipe : Fragment(), AdapterRecipe.OnItemClickListener {
 
-    private lateinit var adapter: AdapterRecipeList
+    private lateinit var adapter: AdapterRecipe
     private lateinit var email: String
     private val productos = mutableListOf<Int>()
 
@@ -43,7 +43,7 @@ class ListRecipe : Fragment(), AdapterRecipeList.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = AdapterRecipeList(requireContext(), this)
+        adapter = AdapterRecipe(requireContext(), this)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
         observeData()
@@ -53,6 +53,7 @@ class ListRecipe : Fragment(), AdapterRecipeList.OnItemClickListener {
         saveData.setOnClickListener {
             recipeName.visibility = View.VISIBLE
             saveName.visibility = View.VISIBLE
+            
 
             saveName.setOnClickListener{
                 val nombre = recipeName.text.toString()

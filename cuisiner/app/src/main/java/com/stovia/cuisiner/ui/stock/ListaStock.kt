@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.stovia.cuisiner.R
-import com.stovia.cuisiner.viewmodel.ViewModelList
+import com.stovia.cuisiner.viewmodel.stock.ViewModelList
 import com.stovia.cuisiner.viewmodel.adapter.Adapter
 
 import kotlinx.android.synthetic.main.fragment_lista_stock.*
