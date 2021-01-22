@@ -6,18 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.stovia.cuisiner.R
+import com.stovia.cuisiner.ui.dialog.AddStockDialogFragment
+import com.stovia.cuisiner.ui.dialog.RecipeSetFragmentDialog
 import com.stovia.cuisiner.viewmodel.adapter.AdapterRecipe
 
 import com.stovia.cuisiner.viewmodel.recipe.ViewModelListRecipe
 
 import kotlinx.android.synthetic.main.fragment_list_recipe.*
 
-class ListRecipe : Fragment(), AdapterRecipe.OnItemClickListener {
+class ListRecipe : Fragment(), AdapterRecipe.OnItemClickListener,
+    RecipeSetFragmentDialog.NoticeDialogListener {
 
     private lateinit var adapter: AdapterRecipe
     private lateinit var email: String
@@ -51,21 +55,22 @@ class ListRecipe : Fragment(), AdapterRecipe.OnItemClickListener {
 
 
         saveData.setOnClickListener {
-            recipeName.visibility = View.VISIBLE
-            saveName.visibility = View.VISIBLE
-            
 
-            saveName.setOnClickListener{
-                val nombre = recipeName.text.toString()
-                saveDataRecipe(nombre)
-            }
+            val dialogFragment = RecipeSetFragmentDialog()
+//            dialogFragment.setTargetFragment(this, 0)
+            val args = Bundle()
+            var name = "null"
+            args.putString("name",name)
+            dialogFragment.arguments = args
+
+            dialogFragment.setTargetFragment(this, 1);
+            dialogFragment.show(requireFragmentManager(), "MyCustomDialog");
 
         }
     }
 
     private fun saveDataRecipe(nombre:String){
         viewModel.setRecipeName(nombre)
-
         for (i in productos){
             viewModel.saveDataRecipe(adapter.getRecipeIndex(i))
         }
@@ -99,5 +104,14 @@ class ListRecipe : Fragment(), AdapterRecipe.OnItemClickListener {
             //adapter.changeItem(position)
             productos.remove(position)
         }
+    }
+
+    override fun onDialogSaveRecipe(dialog: DialogFragment, recipeName: String) {
+        Toast.makeText(context,"Receta guardada $recipeName",Toast.LENGTH_SHORT).show()
+        saveDataRecipe(recipeName)
+    }
+
+    override fun onDialogCancelRecipe(dialog: DialogFragment) {
+        Toast.makeText(context,"Receta cancelada",Toast.LENGTH_SHORT).show()
     }
 }
