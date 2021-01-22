@@ -41,39 +41,10 @@
         android:name="com.stovia.cuisiner.ui.stock.ListaStock"
         android:label="fragment_lista_stock"
         tools:layout="@layout/fragment_lista_stock" >
-        <action
-            android:id="@+id/action_listaStock_to_addStock"
-            app:destination="@id/addStock" />
-        <action
-            android:id="@+id/action_listaStock_to_editStock"
-            app:destination="@id/editStock" />
         <argument
             android:name="email"
             app:argType="string"
             android:defaultValue="default email" />
-    </fragment>
-    <fragment
-        android:id="@+id/addStock"
-        android:name="com.stovia.cuisiner.ui.stock.AddStock"
-        android:label="fragment_add_stock"
-        tools:layout="@layout/fragment_add_stock" >
-        <argument
-            android:name="email"
-            app:argType="string"
-            android:defaultValue="error mail" />
-    </fragment>
-    <fragment
-        android:id="@+id/editStock"
-        android:name="com.stovia.cuisiner.ui.stock.EditStock"
-        android:label="fragment_edit_stock"
-        tools:layout="@layout/fragment_edit_stock" >
-        <argument
-            android:name="product"
-            app:argType="com.stovia.cuisiner.ui.model.Product" />
-        <argument
-            android:name="email"
-            app:argType="string"
-            android:defaultValue="error mail" />
     </fragment>
     <fragment
         android:id="@+id/receta"
