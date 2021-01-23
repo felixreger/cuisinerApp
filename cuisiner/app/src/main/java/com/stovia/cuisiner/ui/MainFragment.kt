@@ -28,7 +28,7 @@ class MainFragment : Fragment() {
         Toast.makeText(context, "email: $email", Toast.LENGTH_SHORT).show()
 
         goToRecipeListButton.setOnClickListener{
-            val action = MainFragmentDirections.actionMainFragmentToReceta("felixregert@gmail.com")
+            val action = MainFragmentDirections.actionMainFragmentToReceta(email)
             findNavController().navigate(action)
             //Toast.makeText(context, "Lista de recetas No implementado", Toast.LENGTH_SHORT).show()
         }

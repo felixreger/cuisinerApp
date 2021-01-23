@@ -5,52 +5,72 @@
     android:layout_height="wrap_content"
     android:padding="40dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.dialog.RecipeSetFragmentDialog">
+    tools:context=".ui.dialog.EditIngredientDialogFragment">
 
     <TextView
         android:id="@+id/recipeName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:text="Set recipe name"
+        android:layout_marginTop="24dp"
+        android:text="recipe_name"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ingredientNameText" />
+
+    <TextView
+        android:id="@+id/ingredientNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit ingredient"
         android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.417"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/recipeNameEditText"
-        android:layout_width="match_parent"
+        android:id="@+id/amountEditText"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:hint="recipe name"
+        android:hint="amountEditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recipeName" />
 
+    <EditText
+        android:id="@+id/unitEditText"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:hint="unitEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/amountEditText" />
 
     <Button
         android:id="@+id/cancelButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="155dp"
         android:text="cancel"
         app:layout_constraintEnd_toStartOf="@+id/saveButton"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recipeNameEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/recipeName" />
 
     <Button
         android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="155dp"
         android:text="save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/cancelButton"
-        app:layout_constraintTop_toBottomOf="@+id/recipeNameEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/recipeName" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

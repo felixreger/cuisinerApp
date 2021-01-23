@@ -10,6 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.stovia.cuisiner.R
+import com.stovia.cuisiner.ui.dialog.EditIngredientDialogFragment
+import com.stovia.cuisiner.ui.dialog.EditStockDialogFragment
+import com.stovia.cuisiner.ui.model.Product
 import com.stovia.cuisiner.viewmodel.adapter.Adapter
 import com.stovia.cuisiner.viewmodel.recipe.ViewModelIngredients
 import kotlinx.android.synthetic.main.fragment_list_recipe.*
@@ -56,8 +59,24 @@ class Ingredients : Fragment(), Adapter.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {
-        Toast.makeText(context,"Click ", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(context,"Click ${xd.nombre}", Toast.LENGTH_SHORT).show()
+        val ingredient = adapter.getProductIndex(position)
 
+        val dialogFragment = EditIngredientDialogFragment()
+
+        val args = Bundle()
+        args.putString("email",email)
+        args.putString("recipeName",nombreReceta)
+
+
+        //todo ver si puedo pasarlo asi: ingredient as Product
+        args.putParcelable("ingredient",ingredient)
+
+        dialogFragment.arguments = args
+//        Toast.makeText(context, args.toString(), Toast.LENGTH_SHORT).show()
+
+        dialogFragment.show(requireFragmentManager(), "ad")
+//        fragmentManager?.let { it1 -> dialogFragment.show(it1, "custom dialog") }
     }
 
 }

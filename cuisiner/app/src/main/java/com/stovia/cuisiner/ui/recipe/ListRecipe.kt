@@ -58,10 +58,6 @@ class ListRecipe : Fragment(), AdapterRecipe.OnItemClickListener,
 
             val dialogFragment = RecipeSetFragmentDialog()
 //            dialogFragment.setTargetFragment(this, 0)
-            val args = Bundle()
-            var name = "null"
-            args.putString("name",name)
-            dialogFragment.arguments = args
 
             dialogFragment.setTargetFragment(this, 1);
             dialogFragment.show(requireFragmentManager(), "MyCustomDialog");

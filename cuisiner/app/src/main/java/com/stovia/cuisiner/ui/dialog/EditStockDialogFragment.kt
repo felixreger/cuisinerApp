@@ -5,10 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.stovia.cuisiner.R
-import com.stovia.cuisiner.ui.model.Product
 import com.stovia.cuisiner.viewmodel.stock.ViewModelDeleteStock
 import com.stovia.cuisiner.viewmodel.stock.ViewModelEditStock
 import kotlinx.android.synthetic.main.fragment_edit_stock_dialog.view.*
@@ -28,7 +26,7 @@ class EditStockDialogFragment : DialogFragment() {
 
         rootView.saveButton.setOnClickListener {
             viewModelEditStock.saveData(email,
-                rootView.dialogHeader.text.toString().toLowerCase(Locale.ROOT),
+                rootView.recipeName.text.toString().toLowerCase(Locale.ROOT),
                 rootView.unitEditText.text.toString().toLowerCase(Locale.ROOT),
                 rootView.amountEditText.text.toString().toLowerCase(Locale.ROOT))
             dismiss()
@@ -44,7 +42,7 @@ class EditStockDialogFragment : DialogFragment() {
 
         val productData = requireArguments().getStringArrayList("productData")
 
-        rootView.dialogHeader.text = productData?.get(0).toString()
+        rootView.recipeName.text = productData?.get(0).toString()
         rootView.unitEditText.setText(productData?.get(1).toString())
         rootView.amountEditText.setText(productData?.get(2).toString())
     }

@@ -117,23 +117,6 @@ class Repository {
         return getUserProducts(email)
     }
 
-    fun saveRecipe(product: String): LiveData<Boolean>{
-        val mutableUserData = MutableLiveData<Boolean>()
-            db.collection("usuarios") //Busco en usuarios
-                .document("felixregert@gmail.com" ?: "") //Por mail
-                .collection(nombreReceta!!) //Busco en productos
-                .document(product) //Por nombre de producto
-                .set( //Se crea un documento por cada users y la clave es "email"
-                    hashMapOf(
-                        "cantidad" to "10",
-                        "unidad" to "kg"
-                    )
-                ).addOnCompleteListener {
-                    mutableUserData.value = it.isSuccessful
-                }
-        return mutableUserData
-    }
-
     fun getUserRecipe(email: String, tag: Boolean): LiveData<MutableList<String>>{
         val mutableData = MutableLiveData<MutableList<String>>()
         //Si tag es true, entonces me piden listar recetas
@@ -165,5 +148,22 @@ class Repository {
         nombreReceta = nombre
     }
 
+    //NO SE PUEDE EDITAR EL NOMBRE
+    fun saveUserData(rootCollection:String, rootDocumentKey: String, subCollection: String, product: Product): LiveData<Boolean> {
+        val mutableUserData = MutableLiveData<Boolean>()
+        db.collection(rootCollection)
+            .document(rootDocumentKey ?: "")
+            .collection(subCollection)
+            .document(product.nombre!!) //guarda uno nuevo
+            .set(
+                hashMapOf(
+                    "cantidad" to product.cantidad,
+                    "unidad" to product.unidad
+                )
+            ).addOnCompleteListener {
+                mutableUserData.value = it.isSuccessful
+            }
+        return mutableUserData
+    }
 
 }

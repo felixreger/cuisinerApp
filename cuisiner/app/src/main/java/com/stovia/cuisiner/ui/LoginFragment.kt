@@ -41,8 +41,8 @@ class LoginFragment : Fragment() {
         analytics.logEvent("InitScreen", bundle) //No anda
 
         //start
-        emailEditText.setText("felipe@gmail.com")
-        passwordEditText.setText("felipe")
+        emailEditText.setText("felixregert@gmail.com")
+        passwordEditText.setText("tandil")
     }
 
     private fun initLogInButton() {

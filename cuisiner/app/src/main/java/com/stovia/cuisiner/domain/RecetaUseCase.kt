@@ -6,6 +6,7 @@ import com.stovia.cuisiner.data.Repository
 
 
 class RecetaUseCase {
+
     private val repository = Repository()
     //todo parametros.
     fun getRecipeList(email:String, tag:Boolean) : LiveData<MutableList<String>> {
@@ -18,9 +19,9 @@ class RecetaUseCase {
 
     fun saveRecipe(s: String): LiveData<Boolean>{
         val mutableUserData = MutableLiveData<Boolean>()
-        repository.saveRecipe(s).observeForever {
-            mutableUserData.value = it
-        }
+//        repository.saveRecipe(s).observeForever {
+//            mutableUserData.value = it
+//        }
         return mutableUserData
     }
 

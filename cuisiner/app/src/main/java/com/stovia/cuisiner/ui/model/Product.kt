@@ -1,8 +1,6 @@
 package com.stovia.cuisiner.ui.model
-
 import android.os.Parcel
 import android.os.Parcelable
-
 import com.stovia.cuisiner.viewmodel.adapter.Adapter
 
 class Product (val nombre: String? = "nombre",
@@ -33,6 +31,8 @@ class Product (val nombre: String? = "nombre",
         return "Producto(nombre=$nombre, cantidad=$cantidad, unidad=$unidad)"
     }
 
+
+
     companion object CREATOR : Parcelable.Creator<Product> {
         override fun createFromParcel(parcel: Parcel): Product {
             return Product(parcel)
@@ -42,4 +42,7 @@ class Product (val nombre: String? = "nombre",
             return arrayOfNulls(size)
         }
     }
+
 }
+
+

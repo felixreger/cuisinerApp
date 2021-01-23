@@ -8,7 +8,7 @@
     tools:context=".ui.dialog.EditStockDialogFragment">
 
     <TextView
-        android:id="@+id/dialogHeader"
+        android:id="@+id/recipeName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
@@ -28,7 +28,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dialogHeader" />
+        app:layout_constraintTop_toBottomOf="@+id/recipeName" />
 
     <EditText
         android:id="@+id/unitEditText"
@@ -50,7 +50,7 @@
         app:layout_constraintEnd_toStartOf="@+id/saveButton"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dialogHeader" />
+        app:layout_constraintTop_toBottomOf="@+id/recipeName" />
 
     <Button
         android:id="@+id/saveButton"
@@ -61,7 +61,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/cancelButton"
-        app:layout_constraintTop_toBottomOf="@+id/dialogHeader" />
+        app:layout_constraintTop_toBottomOf="@+id/recipeName" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

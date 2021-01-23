@@ -78,7 +78,7 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
             product.unidad
         ))
         dialogFragment.arguments = args
-        Toast.makeText(context, args.toString(), Toast.LENGTH_SHORT).show()
+//        Toast.makeText(context, args.toString(), Toast.LENGTH_SHORT).show()
 
         fragmentManager?.let { it1 -> dialogFragment.show(it1, "custom dialog") }
     }
