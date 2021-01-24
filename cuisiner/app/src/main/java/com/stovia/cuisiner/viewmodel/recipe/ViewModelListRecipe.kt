@@ -3,30 +3,42 @@ package com.stovia.cuisiner.viewmodel.recipe
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.stovia.cuisiner.domain.RecetaUseCase
+import com.stovia.cuisiner.domain.RecipeListUseCase
+import com.stovia.cuisiner.ui.model.Product
 
 class ViewModelListRecipe: ViewModel() {
 
-    var listData = MutableLiveData<MutableList<String>>()
-    private val recetaUseCase = RecetaUseCase()
+    var listData = MutableLiveData<MutableList<Product>>()
+    private val recetaUseCase = RecipeListUseCase()
     var rest = MutableLiveData<Boolean>()
 
-    fun getRecipeList(email:String, tag:Boolean) {
-        recetaUseCase.getRecipeList(email,tag).observeForever {
+    private var recipeName = String()
+
+    fun getProductosDisponibles(email:String) {
+        //quiero todos los detalles de los productos asociados al email
+        recetaUseCase.getProductosDisponibles(email).observeForever {
             setProductList(it)
         }
     }
 
-    private fun setProductList(list : MutableList<String>) {
+    private fun setProductList(list : MutableList<Product>) {
         listData.value = list
     }
 
-    fun getRecipeListLiveData() : LiveData<MutableList<String>> {
+    fun getRecipeListLiveData() : LiveData<MutableList<Product>> {
         return listData
     }
 
+
+    /*
     fun saveDataRecipe(recipeIndex: String) {
         recetaUseCase.saveRecipe(recipeIndex).observeForever{
+            rest.value = it
+        }
+    }*/
+
+    fun saveDataRecipe(email:String, product: Product) {
+        recetaUseCase.saveRecipe(email, recipeName, product).observeForever{
             rest.value = it
         }
     }
@@ -36,7 +48,7 @@ class ViewModelListRecipe: ViewModel() {
     }
 
     fun setRecipeName(nombre: String) {
-        recetaUseCase.setRecipeName(nombre)
+        recipeName = nombre
     }
 
 }

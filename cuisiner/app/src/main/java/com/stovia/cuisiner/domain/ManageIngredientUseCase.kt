@@ -11,7 +11,7 @@ class ManageIngredientUseCase {
     fun saveIngredient(recipeName: String,
                           ingredient: Product
                           ): LiveData<Boolean> {
-        return repository.saveUserData("recipe",recipeName,"products",ingredient)
+        return repository.saveRecipe("recipe",recipeName,ingredient)
     }
 
 //    fun updateIngredient(

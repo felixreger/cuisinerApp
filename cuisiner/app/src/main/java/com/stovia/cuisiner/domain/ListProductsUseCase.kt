@@ -8,7 +8,9 @@ import com.stovia.cuisiner.ui.model.Product
 
 class ListProductsUseCase{
 
+
     private val repository = Repository()
+
     //todo parametros.
     fun getProductList(email:String) : LiveData<MutableList<Product>> {
         val mutableData = MutableLiveData<MutableList<Product>>()

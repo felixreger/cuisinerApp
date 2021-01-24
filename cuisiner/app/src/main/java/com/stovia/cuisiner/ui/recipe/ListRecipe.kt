@@ -14,16 +14,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.stovia.cuisiner.R
 import com.stovia.cuisiner.ui.dialog.AddStockDialogFragment
 import com.stovia.cuisiner.ui.dialog.RecipeSetFragmentDialog
+import com.stovia.cuisiner.ui.model.Product
+import com.stovia.cuisiner.viewmodel.adapter.AdapterList
 import com.stovia.cuisiner.viewmodel.adapter.AdapterRecipe
 
 import com.stovia.cuisiner.viewmodel.recipe.ViewModelListRecipe
 
 import kotlinx.android.synthetic.main.fragment_list_recipe.*
 
-class ListRecipe : Fragment(), AdapterRecipe.OnItemClickListener,
+class ListRecipe : Fragment(), AdapterList.OnItemClickListener,
     RecipeSetFragmentDialog.NoticeDialogListener {
 
-    private lateinit var adapter: AdapterRecipe
+    private lateinit var adapter: AdapterList
     private lateinit var email: String
     private val productos = mutableListOf<Int>()
 
@@ -34,7 +36,9 @@ class ListRecipe : Fragment(), AdapterRecipe.OnItemClickListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         email = ListRecipeArgs.fromBundle(requireArguments()).email
-        viewModel.getRecipeList(email, false)
+        //quiero todos los detalles de los productos asociados al email
+        //todo ya esta hecho, pero no tengo el control
+        viewModel.getProductosDisponibles(email)
     }
 
     override fun onCreateView(
@@ -47,7 +51,7 @@ class ListRecipe : Fragment(), AdapterRecipe.OnItemClickListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = AdapterRecipe(requireContext(), this)
+        adapter = AdapterList(requireContext(), this)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
         observeData()
@@ -67,8 +71,9 @@ class ListRecipe : Fragment(), AdapterRecipe.OnItemClickListener,
 
     private fun saveDataRecipe(nombre:String){
         viewModel.setRecipeName(nombre)
+
         for (i in productos){
-            viewModel.saveDataRecipe(adapter.getRecipeIndex(i))
+            viewModel.saveDataRecipe(email, Product(adapter.getProductIndex(i).nombre,"0", adapter.getProductIndex(i).unidad))
         }
     }
 

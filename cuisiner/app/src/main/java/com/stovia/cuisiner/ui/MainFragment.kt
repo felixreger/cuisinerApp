@@ -30,7 +30,6 @@ class MainFragment : Fragment() {
         goToRecipeListButton.setOnClickListener{
             val action = MainFragmentDirections.actionMainFragmentToReceta(email)
             findNavController().navigate(action)
-            //Toast.makeText(context, "Lista de recetas No implementado", Toast.LENGTH_SHORT).show()
         }
 
         goToProductListButton.setOnClickListener {

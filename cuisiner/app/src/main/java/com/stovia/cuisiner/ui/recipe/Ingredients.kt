@@ -30,6 +30,8 @@ class Ingredients : Fragment(), Adapter.OnItemClickListener {
         super.onCreate(savedInstanceState)
         email = IngredientsArgs.fromBundle(requireArguments()).email
         nombreReceta = IngredientsArgs.fromBundle(requireArguments()).nombreReceta
+
+        //Quiero los ingredientes/productos con todos los detalles
         viewModel.getIngredientsList(email,nombreReceta)
 
     }

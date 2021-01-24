@@ -15,8 +15,7 @@ class Repository {
     private val db = FirebaseFirestore.getInstance()
     private var firebaseAuth = FirebaseAuth.getInstance()
 
-    private var nombreReceta : String?=null
-
+    //devuelve los productos de un usuario con nombre, cantidad y unidad
     fun getUserProducts(email: String): LiveData<MutableList<Product>> {
         val mutableData = MutableLiveData<MutableList<Product>>()
         db.collection("usuarios")
@@ -24,31 +23,66 @@ class Repository {
             .collection("productos")
             .get().addOnSuccessListener { result ->
                 val listData = mutableListOf<Product>()
-                for (document in result) {
-                    val cantidad = document.getString("cantidad")
-                    val unidad = document.getString("unidad")
-                    val usuario = Product(document.id, cantidad!!, unidad!!)
-                    listData.add(usuario)
+                for (i in result) {
+                    val amount = i.getString("cantidad")
+                    val unit = i.getString("unidad")
+                    val userAux = Product(i.id, amount!!, unit!!)
+                    listData.add(userAux)
                 }
                 mutableData.value = listData
             }
         return mutableData
     }
 
-    //todo unificar
-    fun getIngredientProducts(email: String,nombre:String): LiveData<MutableList<Product>>{
+    // devuelve lista con los nombres de las recetas de un usuario, buscando por la clave "email"
+    fun getUserRecipe(email: String): LiveData<MutableList<String>>{
+        Log.d("EMAIL", email)
+        val mutableData = MutableLiveData<MutableList<String>>()
+        db.collection("recetaTest")
+            .whereEqualTo("email", email)
+            .get().addOnSuccessListener { result ->
+                val listData = mutableListOf<String>()
+                for (i in result) {
+                    val nameRecipe = i.getString("name")
+                    listData.add(nameRecipe!!)
+                }
+                mutableData.value = listData
+            }
+        return mutableData
+    }
+
+    fun saveRecipe(email: String, nombre:String, product: Product): LiveData<Boolean>{
+        val mutableUserData = MutableLiveData<Boolean>()
+        var aux :Boolean = false
+
+        db.collection("recetaTest") //Busco en usuarios
+            .document(email ?: "") //Por mail
+            .also {  it.set(hashMapOf("name" to nombre)) }
+            .collection("productosTest") //Busco en productos
+            .document(product.nombre!!) //Por nombre de producto
+            .set( //Se crea un documento por cada users y la clave es "email"
+                hashMapOf("cantidad" to product.cantidad, "unidad" to product.unidad)
+            ).addOnCompleteListener {
+                aux = it.isSuccessful
+            }
+        mutableUserData.value = aux
+        return mutableUserData
+    }
+
+    //con el mail y el nombre de la recetas me devuelve los ingredientes con cantidad y unidad
+    fun getRecipeIngredients(email: String, nombreReceta: String): LiveData<MutableList<Product>> {
         val mutableData = MutableLiveData<MutableList<Product>>()
-        Log.d("PARAMETRO", nombre)
-        db.collection("usuarios")
-            .document(email)
-            .collection("Nombre de la receta")
-            .get().addOnSuccessListener { result  ->
+        db.collection("recetaTest") //usuario
+            .document(email) // email
+            .collection("productosTest") // productos
+            .whereEqualTo("name", nombreReceta)
+            .get().addOnSuccessListener { result ->
                 val listData = mutableListOf<Product>()
-                for (document in result) {
-                    val cantidad = document.getString("cantidad")
-                    val unidad = document.getString("unidad")
-                    val usuario = Product(document.id, cantidad!!, unidad!!)
-                    listData.add(usuario)
+                for (i in result) {
+                    val amount = i.getString("cantidad")
+                    val unit = i.getString("unidad")
+                    val userAux = Product(i.id, amount!!, unit!!)
+                    listData.add(userAux)
                 }
                 mutableData.value = listData
             }
@@ -83,7 +117,10 @@ class Repository {
         return mutableUserData
     }
 
-    fun saveProduct(email: String, amount: String, unit: String, productName: String): LiveData<MutableList<Product>> {
+    fun saveProduct(email: String, amount: String, unit: String, productName: String): LiveData<Boolean>{
+        var aux:Boolean = false
+        val mutableUserData = MutableLiveData<Boolean>()
+
         db.collection("usuarios") //Busco en usuarios
             .document(email ?: "") //Por mail
             .collection("productos") //Busco en productos
@@ -93,81 +130,30 @@ class Repository {
                     "cantidad" to amount, //todo ver si se puede pasar numeric, definir en base a features
                     "unidad" to unit
                 )
-            )
-        return getUserProducts(email)
-    }
-
-    fun updateData(email: String, amount: String, unit: String, productName: String): LiveData<MutableList<Product>> {
-        db.collection("usuarios") //Busco en usuarios
-                .document(email ?: "") //Por mail
-                .collection("productos") //Busco en productos
-                .document(productName) //Por nombre de producto
-                .update(mapOf(
-                    "cantidad" to amount,
-                    "unidad" to unit
-                ))
-        return getUserProducts(email)
-    }
-
-    fun deleteProduct(email: String,productName: String): LiveData<MutableList<Product>> {
-        db.collection("usuarios") //Busco en usuarios
-                .document(email ?: "") //Por mail
-                .collection("productos") //Busco en productos
-                .document(productName).delete()
-        return getUserProducts(email)
-    }
-
-    fun getUserRecipe(email: String, tag: Boolean): LiveData<MutableList<String>>{
-        val mutableData = MutableLiveData<MutableList<String>>()
-        //Si tag es true, entonces me piden listar recetas
-        //Si es false, me piden listar nombre de productos que tengo
-
-        val recipe = mutableListOf<String>()
-        if(tag){
-            recipe.add("Pan dulce")
-            recipe.add("Pan")
-            recipe.add("Pan casero")
-            recipe.add("Asado")
-            recipe.add("Guiso")
-
-        }else{
-            recipe.add("Azucar")
-            recipe.add("Agua")
-            recipe.add("Sal")
-            recipe.add("Manteca")
-            recipe.add("Cafe")
-            recipe.add("Pimienta")
-            recipe.add("Azufre")
-            recipe.add("Miel")
-        }
-        mutableData.value = recipe
-        return mutableData
-    }
-
-    fun setRecipeName(nombre: String) {
-        nombreReceta = nombre
-    }
-
-    //NO SE PUEDE EDITAR EL NOMBRE
-    fun saveUserData(rootCollection:String, rootDocumentKey: String, subCollection: String, product: Product): LiveData<Boolean> {
-        val mutableUserData = MutableLiveData<Boolean>()
-        db.collection(rootCollection)
-            .document(rootDocumentKey ?: "").also {
-                it.set(hashMapOf(
-                    "name" to "nombreGenerico"
-                ))
-            }
-            .collection("subCollection")
-            .document(product.nombre!!) //guarda uno nuevo
-            .set(
-                hashMapOf(
-                    "cantidad" to product.cantidad,
-                    "unidad" to product.unidad
-                )
             ).addOnCompleteListener {
-                mutableUserData.value = it.isSuccessful
-            }
+            aux = it.isSuccessful
+        }
+        mutableUserData.value = aux
+
         return mutableUserData
     }
+    /*
+    fun updateData(email: String, amount: String, unit: String, productName: String){
 
+    }*/
+
+    fun deleteProduct(email: String, productName: String): LiveData<Boolean> {
+        var aux: Boolean = false
+        val mutableUserData = MutableLiveData<Boolean>()
+
+        db.collection("usuarios") //Busco en usuarios
+            .document(email ?: "") //Por mail
+            .collection("productos") //Busco en productos
+            .document(productName).delete().addOnCompleteListener {
+                aux = it.isSuccessful
+            }
+        mutableUserData.value = aux
+
+        return mutableUserData
+    }
 }
