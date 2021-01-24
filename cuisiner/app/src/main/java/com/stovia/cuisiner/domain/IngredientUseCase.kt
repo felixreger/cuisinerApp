@@ -8,10 +8,11 @@ import com.stovia.cuisiner.ui.model.Product
 class IngredientUseCase {
 
     private val repository = Repository()
-    //todo parametros.
-    fun getIngredientList(email:String,nombre:String) : LiveData<MutableList<Product>> {
+
+    fun getIngredientList(email:String,nombreReceta:String) : LiveData<MutableList<Product>> {
         val mutableData = MutableLiveData<MutableList<Product>>()
-        repository.getIngredientProducts(email,nombre).observeForever {
+        //Quiero los ingredientes/productos con todos los detalles
+        repository.getRecipeIngredients(email, nombreReceta).observeForever {
             mutableData.value = it
         }
         return mutableData

@@ -10,18 +10,17 @@ class ManageStockUseCase {
     fun saveUpdateProduct(email:String,
                           productName: String,
                           productAmount: String,
-                          productUnit: String): LiveData<MutableList<Product>> {
+                          productUnit: String): LiveData<Boolean> {
         return repository.saveProduct(email,productAmount,productUnit,productName)
     }
 
-    fun updateProduct(email:String,
-                      productName: String,
-                      productAmount: String,
-                      productUnit: String): LiveData<MutableList<Product>> {
-        return repository.updateData(email,productAmount,productUnit,productName)
+
+
+    fun deleteProduct(email: String, productName: String): LiveData<Boolean> {
+        return repository.deleteProduct(email,productName)
     }
 
-    fun deleteProduct(email: String, productName: String): LiveData<MutableList<Product>> {
-        return repository.deleteProduct(email,productName)
+    fun updateProduct(email: String, nombre: String, cant: String, un: String) {
+        repository.saveProduct(email,nombre,cant,un)
     }
 }

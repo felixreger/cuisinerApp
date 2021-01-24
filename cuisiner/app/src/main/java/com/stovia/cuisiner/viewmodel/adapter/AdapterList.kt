@@ -5,14 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-
 import androidx.recyclerview.widget.RecyclerView
 import com.stovia.cuisiner.R
 import com.stovia.cuisiner.ui.model.Product
 
-class AdapterRecipe(private val context: Context, private val listener: OnItemClickListener): RecyclerView.Adapter<AdapterRecipe.ViewHolder>() {
+class AdapterList(private val context: Context, private val listener: OnItemClickListener): RecyclerView.Adapter<AdapterList.ViewHolder>() {
 
-    var recipeList = mutableListOf<String>()
+    var productList = mutableListOf<Product>()
 
     inner class ViewHolder(itemView : View): RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
@@ -40,18 +39,19 @@ class AdapterRecipe(private val context: Context, private val listener: OnItemCl
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemNombre.text = recipeList[position]
+        holder.itemNombre.text = productList[position].nombre
     }
 
     override fun getItemCount(): Int {
-        return  recipeList.size
+        return  productList.size
     }
 
-    fun setDataList(recipe: MutableList<String>) {
-        recipeList = recipe
+    fun setDataList(user_products: MutableList<Product>) {
+        productList = user_products
     }
 
-    fun getRecipeIndex(position: Int): String {
-        return recipeList[position]
+    fun getProductIndex(position: Int): Product {
+        return productList[position]
     }
+
 }

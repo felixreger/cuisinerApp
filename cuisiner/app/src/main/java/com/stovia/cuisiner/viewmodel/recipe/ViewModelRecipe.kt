@@ -4,17 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-import com.stovia.cuisiner.domain.RecetaUseCase
-import com.stovia.cuisiner.ui.model.Product
+import com.stovia.cuisiner.domain.RecipeUseCase
 
 class ViewModelRecipe :  ViewModel(){
 
-    var listData = MutableLiveData<MutableList<String>>() //Almacena los nombres de las recetas unicamente
+    var listData = MutableLiveData<MutableList<String>>()
 
-    private val recetaUseCase = RecetaUseCase()
+    private val recipeUseCase = RecipeUseCase()
 
-    fun getRecipeList(email:String, tag:Boolean) {
-        recetaUseCase.getRecipeList(email,tag).observeForever {
+    fun getRecipeList(email:String) {
+        //solamente quiero pedir los nombres de las recetas.
+        recipeUseCase.getRecipeList(email).observeForever {
             setProductList(it)
         }
     }
@@ -23,6 +23,8 @@ class ViewModelRecipe :  ViewModel(){
         listData.value = list
     }
 
+
+    //retorno una lista de nombres de recetas
     fun getRecipeListLiveData() : LiveData<MutableList<String>> {
         return listData
     }

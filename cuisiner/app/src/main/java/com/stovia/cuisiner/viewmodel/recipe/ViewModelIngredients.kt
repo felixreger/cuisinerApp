@@ -16,8 +16,9 @@ class ViewModelIngredients: ViewModel() {
         listData.value = list
     }
 
-    fun getIngredientsList(email:String, nombre:String) {
-        listIngredientsUseCase.getIngredientList(email,nombre).observeForever {
+    fun getIngredientsList(email:String, nombreReceta:String) {
+        //Quiero los ingredientes/productos con todos los detalles
+        listIngredientsUseCase.getIngredientList(email, nombreReceta).observeForever {
             setIngredientsList(it)
         }
     }

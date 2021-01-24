@@ -1,6 +1,7 @@
 package com.stovia.cuisiner.ui.recipe
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -23,12 +24,12 @@ class Recipe : Fragment() , AdapterRecipe.OnItemClickListener {
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(ViewModelRecipe::class.java)
     }
-    //se vuelve el de la lista
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         email = RecipeArgs.fromBundle(requireArguments()).email
-        viewModel.getRecipeList(email, true)
+        //solamente quiero pedir los nombres de las recetas.
+        viewModel.getRecipeList(email)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -52,14 +53,13 @@ class Recipe : Fragment() , AdapterRecipe.OnItemClickListener {
 
     private fun observeData() {
         viewModel.getRecipeListLiveData().observe(viewLifecycleOwner, Observer {
+            Log.d("TAG", it.toString())
             adapter.setDataList(it)
             adapter.notifyDataSetChanged()
         })
     }
 
     override fun onItemClick(position: Int) {
-        //Toast.makeText(context,"Click ", Toast.LENGTH_SHORT).show()
-        //Si aprieto en pan dulce, se carga esa pantalla.
         val action = RecipeDirections.actionRecetaToIngredients(email, adapter.getRecipeIndex(position))
         findNavController().navigate(action)
     }
