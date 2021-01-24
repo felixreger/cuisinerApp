@@ -11,7 +11,7 @@ class ManageStockUseCase {
                           productName: String,
                           productAmount: String,
                           productUnit: String): LiveData<MutableList<Product>> {
-        return repository.saveData(email,productAmount,productUnit,productName)
+        return repository.saveProduct(email,productAmount,productUnit,productName)
     }
 
     fun updateProduct(email:String,

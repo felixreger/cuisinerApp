@@ -43,7 +43,7 @@ class EditIngredientDialogFragment : DialogFragment() {
 
 
         rootView.saveButton.setOnClickListener {
-            viewModelEditIngredient.saveData(email,
+            viewModelEditIngredient.saveData(
                 recipeName.toLowerCase(Locale.ROOT),
                 ingredient as Product
             )

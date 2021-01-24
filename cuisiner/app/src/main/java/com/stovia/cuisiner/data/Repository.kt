@@ -83,7 +83,7 @@ class Repository {
         return mutableUserData
     }
 
-    fun saveData(email: String, amount: String, unit: String, productName: String): LiveData<MutableList<Product>> {
+    fun saveProduct(email: String, amount: String, unit: String, productName: String): LiveData<MutableList<Product>> {
         db.collection("usuarios") //Busco en usuarios
             .document(email ?: "") //Por mail
             .collection("productos") //Busco en productos
@@ -152,8 +152,12 @@ class Repository {
     fun saveUserData(rootCollection:String, rootDocumentKey: String, subCollection: String, product: Product): LiveData<Boolean> {
         val mutableUserData = MutableLiveData<Boolean>()
         db.collection(rootCollection)
-            .document(rootDocumentKey ?: "")
-            .collection(subCollection)
+            .document(rootDocumentKey ?: "").also {
+                it.set(hashMapOf(
+                    "name" to "nombreGenerico"
+                ))
+            }
+            .collection("subCollection")
             .document(product.nombre!!) //guarda uno nuevo
             .set(
                 hashMapOf(
