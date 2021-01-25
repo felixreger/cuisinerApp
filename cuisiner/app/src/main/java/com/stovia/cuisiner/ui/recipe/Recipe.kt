@@ -53,7 +53,6 @@ class Recipe : Fragment() , AdapterRecipe.OnItemClickListener {
 
     private fun observeData() {
         viewModel.getRecipeListLiveData().observe(viewLifecycleOwner, Observer {
-            Log.d("TAG", it.toString())
             adapter.setDataList(it)
             adapter.notifyDataSetChanged()
         })

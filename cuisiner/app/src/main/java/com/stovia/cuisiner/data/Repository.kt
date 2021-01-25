@@ -36,9 +36,8 @@ class Repository {
 
     // devuelve lista con los nombres de las recetas de un usuario, buscando por la clave "email"
     fun getUserRecipe(email: String): LiveData<MutableList<String>>{
-        Log.d("EMAIL", email)
         val mutableData = MutableLiveData<MutableList<String>>()
-        db.collection("recetaTest")
+        db.collection("receta")
             .whereEqualTo("email", email)
             .get().addOnSuccessListener { result ->
                 val listData = mutableListOf<String>()
@@ -54,11 +53,11 @@ class Repository {
     fun saveRecipe(email: String, nombre:String, product: Product): LiveData<Boolean>{
         val mutableUserData = MutableLiveData<Boolean>()
         var aux :Boolean = false
-
-        db.collection("recetaTest") //Busco en usuarios
-            .document(email ?: "") //Por mail
-            .also {  it.set(hashMapOf("name" to nombre)) }
-            .collection("productosTest") //Busco en productos
+        val clave = nombre.replace("\\s".toRegex(), "")
+        db.collection("receta") //Busco en usuarios
+            .document("$email#$clave" ?: "") //Por mail
+            .also {  it.set(hashMapOf("name" to nombre, "email" to email)) }
+            .collection("productos") //Busco en productos
             .document(product.nombre!!) //Por nombre de producto
             .set( //Se crea un documento por cada users y la clave es "email"
                 hashMapOf("cantidad" to product.cantidad, "unidad" to product.unidad)
@@ -72,10 +71,12 @@ class Repository {
     //con el mail y el nombre de la recetas me devuelve los ingredientes con cantidad y unidad
     fun getRecipeIngredients(email: String, nombreReceta: String): LiveData<MutableList<Product>> {
         val mutableData = MutableLiveData<MutableList<Product>>()
-        db.collection("recetaTest") //usuario
-            .document(email) // email
-            .collection("productosTest") // productos
-            .whereEqualTo("name", nombreReceta)
+        val clave = nombreReceta.replace("\\s".toRegex(), "")
+
+        db.collection("receta") //usuario
+            .also { it.whereEqualTo("name", nombreReceta)}
+            .document("$email#$clave") // email
+            .collection("productos") // productos
             .get().addOnSuccessListener { result ->
                 val listData = mutableListOf<Product>()
                 for (i in result) {
@@ -137,6 +138,7 @@ class Repository {
 
         return mutableUserData
     }
+
     /*
     fun updateData(email: String, amount: String, unit: String, productName: String){
 
