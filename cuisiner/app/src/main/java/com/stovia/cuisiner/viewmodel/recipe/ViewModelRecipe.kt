@@ -1,14 +1,21 @@
 package com.stovia.cuisiner.viewmodel.recipe
 
+import android.widget.RelativeLayout
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.stovia.cuisiner.R
 
 import com.stovia.cuisiner.domain.RecipeUseCase
+import com.stovia.cuisiner.ui.model.Product
 
 class ViewModelRecipe :  ViewModel(){
 
     var listData = MutableLiveData<MutableList<String>>()
+
+    var selectedRecipeList = ArrayList<String>()
+    var isContextualModeEnabled : Boolean = false
 
     private val recipeUseCase = RecipeUseCase()
 
@@ -29,5 +36,14 @@ class ViewModelRecipe :  ViewModel(){
         return listData
     }
 
+    fun selectRecipe(recipe: String, relativeLayout: RelativeLayout) {
+        relativeLayout.setBackgroundColor(R.attr.colorPrimary)
+        selectedRecipeList.add(recipe)
+    }
+
+    fun unselectRecipe(recipe: String, relativeLayout: RelativeLayout){
+        relativeLayout.setBackgroundColor(Color.hashCode())
+        selectedRecipeList.remove(recipe)
+    }
 
 }

@@ -83,7 +83,6 @@ class Ingredients : Fragment(), Adapter.OnItemClickListener {
     }
 
     override fun onLongClick(position: Int, relativeLayout: RelativeLayout) {
-        TODO("Not yet implemented")
     }
 
 }

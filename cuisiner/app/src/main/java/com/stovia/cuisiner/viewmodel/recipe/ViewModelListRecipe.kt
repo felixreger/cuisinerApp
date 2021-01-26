@@ -1,8 +1,11 @@
 package com.stovia.cuisiner.viewmodel.recipe
 
+import android.widget.RelativeLayout
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.stovia.cuisiner.R
 import com.stovia.cuisiner.domain.RecipeListUseCase
 import com.stovia.cuisiner.ui.model.Product
 
@@ -50,5 +53,4 @@ class ViewModelListRecipe: ViewModel() {
     fun setRecipeName(nombre: String) {
         recipeName = nombre
     }
-
 }

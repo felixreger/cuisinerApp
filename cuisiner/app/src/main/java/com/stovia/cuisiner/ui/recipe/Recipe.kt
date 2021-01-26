@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -58,8 +60,89 @@ class Recipe : Fragment() , AdapterRecipe.OnItemClickListener {
         })
     }
 
-    override fun onItemClick(position: Int) {
-        val action = RecipeDirections.actionRecetaToIngredients(email, adapter.getRecipeIndex(position))
-        findNavController().navigate(action)
+    override fun onItemClick(position: Int, relativeLayout: RelativeLayout) {
+        if (!viewModel.isContextualModeEnabled){
+            val action = RecipeDirections.actionRecetaToIngredients(email, adapter.getRecipeIndex(position))
+            findNavController().navigate(action)
+        }else{
+            val recipe = adapter.getRecipeIndex(position)
+            if(viewModel.selectedRecipeList.contains(recipe)){
+                viewModel.unselectRecipe(recipe,relativeLayout)
+                if (viewModel.selectedRecipeList.isEmpty()){
+                    viewModel.isContextualModeEnabled = false
+                }
+            }
+            else{
+                viewModel.selectRecipe(recipe,relativeLayout)
+
+            }
+        }
     }
+
+    override fun onLongClick(position: Int, relativeLayout: RelativeLayout) {
+        val recipe = adapter.getRecipeIndex(position)
+
+        if(!viewModel.isContextualModeEnabled){
+            viewModel.selectRecipe(recipe,relativeLayout)
+            viewModel.isContextualModeEnabled = true
+        }
+        else{
+            if(viewModel.selectedRecipeList.contains(recipe)){
+                viewModel.unselectRecipe(recipe,relativeLayout)
+                if (viewModel.selectedRecipeList.isEmpty()){
+                    viewModel.isContextualModeEnabled = false
+                }
+            }
+            else{
+                viewModel.selectRecipe(recipe,relativeLayout)
+            }
+        }
+    }
+
+
+//    override fun onItemClick(position: Int, relativeLayout: RelativeLayout) {
+//        val product = adapter.getProductIndex(position)
+//
+//        if (!viewModel.isContextualModeEnabled){
+//            if(!productos.contains(position)){
+//                Toast.makeText(context,"Agregado ", Toast.LENGTH_SHORT).show()
+//                //adapter.changeItem(position)
+//                productos.add(position)
+//            }else {
+//                Toast.makeText(context, "DES Agregado ", Toast.LENGTH_SHORT).show()
+//                //adapter.changeItem(position)
+//                productos.remove(position)
+//            }
+//        }
+//        else{
+//            if(viewModel.isProductSelected(product)){
+//                viewModel.unselectProduct(product,relativeLayout)
+//            }
+//            else{
+//                viewModel.selectProduct(product,relativeLayout)
+//                if (viewModel.selectedProductList.isEmpty()){
+//                    viewModel.isContextualModeEnabled = false
+//                }
+//            }
+//        }
+//    }
+//
+//    override fun onLongClick(position: Int, relativeLayout: RelativeLayout) {
+//        val product = adapter.getProductIndex(position)
+//
+//        if(!viewModel.isContextualModeEnabled){
+//            viewModel.selectProduct(product,relativeLayout)
+//        }
+//        else{
+//            if(viewModel.isProductSelected(product)){
+//                viewModel.unselectProduct(product,relativeLayout)
+//            }
+//            else{
+//                viewModel.selectProduct(product,relativeLayout)
+//                if (viewModel.selectedProductList.isEmpty()){
+//                    viewModel.isContextualModeEnabled = false
+//                }
+//            }
+//        }
+//    }
 }
