@@ -1,11 +1,16 @@
 package com.stovia.cuisiner.ui.model
 import android.os.Parcel
 import android.os.Parcelable
+import android.util.Log
+import android.widget.RelativeLayout
+import android.widget.Toast
 import com.stovia.cuisiner.viewmodel.adapter.Adapter
 
 class Product (val nombre: String? = "nombre",
                var cantidad: String? = "cantidad",
                val unidad: String? = "unidad") : Adapter.OnItemClickListener, Parcelable {
+
+    var selected : Boolean = false
 
     constructor(parcel: Parcel) : this(
         parcel.readString(),
@@ -13,9 +18,14 @@ class Product (val nombre: String? = "nombre",
         parcel.readString()) {
     }
 
-    override fun onItemClick(position: Int) {
-        //HACER LO QUE QUIERA
-    }
+//    override fun onItemClick(position: Int) {
+//        selected = !selected
+//        Log.d("selected", selected.toString())
+//    }
+//
+//    override fun onLongClick(position: Int) {
+////        selected = !selected
+//    }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(nombre)
@@ -31,7 +41,27 @@ class Product (val nombre: String? = "nombre",
         return "Producto(nombre=$nombre, cantidad=$cantidad, unidad=$unidad)"
     }
 
+    override fun onItemClick(position: Int, relativeLayout: RelativeLayout) {
 
+    }
+
+    override fun onLongClick(position: Int, relativeLayout: RelativeLayout) {
+
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Product
+
+        if (nombre != other.nombre) return false
+        if (cantidad != other.cantidad) return false
+        if (unidad != other.unidad) return false
+        if (selected != other.selected) return false
+
+        return true
+    }
 
     companion object CREATOR : Parcelable.Creator<Product> {
         override fun createFromParcel(parcel: Parcel): Product {

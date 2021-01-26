@@ -1,10 +1,15 @@
 package com.stovia.cuisiner.ui.stock
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.*
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -13,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.stovia.cuisiner.R
 import com.stovia.cuisiner.ui.dialog.AddStockDialogFragment
 import com.stovia.cuisiner.ui.dialog.EditStockDialogFragment
+import com.stovia.cuisiner.ui.model.Product
 import com.stovia.cuisiner.viewmodel.stock.ViewModelEditStock
 import com.stovia.cuisiner.viewmodel.stock.ViewModelList
 import com.stovia.cuisiner.viewmodel.adapter.Adapter
@@ -25,6 +31,9 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
     private lateinit var email: String
 
     private val viewModel by lazy { ViewModelProviders.of(this).get(ViewModelList::class.java) }
+
+    var isContextualModeEnabled : Boolean = false
+    //normal --> selection
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,13 +72,54 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
         })
     }
 
-    override fun onItemClick(position: Int) {
+    override fun onLongClick(position: Int, relativeLayout: RelativeLayout) {
         val product = adapter.getProductIndex(position)
-        Toast.makeText(context, "Click on ${product.nombre}", Toast.LENGTH_SHORT).show()
-//        val action2 = ListaStockDirections.actionListaStockToEditStock(product, this.email)
-//        findNavController().navigate(action2)
-        val dialogFragment = EditStockDialogFragment()
 
+        if(viewModel.selectedProductList.isEmpty()){
+            isContextualModeEnabled = true
+            viewModel.selectProduct(product,relativeLayout)
+        }
+        else{
+            if (!product.selected){ //si el producto no esta agregado lo agrega
+                viewModel.selectProduct(product,relativeLayout)
+            }
+            else{ //si el producto esta agregado lo saca
+                viewModel.unselectProduct(product,relativeLayout)
+                if (viewModel.selectedProductList.isEmpty()){
+                    isContextualModeEnabled = false
+                }
+            }
+        }
+//            viewModel.selectedProductList = ArrayList()
+//        Toast.makeText(context, "${viewModel.selectedProductList}", Toast.LENGTH_SHORT).show()
+        Log.d("seleccionados", viewModel.selectedProductList.toString())
+
+    }
+
+    override fun onItemClick(position: Int, relativeLayout: RelativeLayout) {
+        val product = adapter.getProductIndex(position)
+
+        //solamente si esta vacia la lista funciona el edit
+        if(!isContextualModeEnabled){
+            editProduct(product)
+        }
+        else{
+            if(!product.selected){
+                viewModel.selectProduct(product,relativeLayout)
+            }
+            else{
+                viewModel.unselectProduct(product,relativeLayout)
+                if (viewModel.selectedProductList.isEmpty()){
+                    isContextualModeEnabled = false
+                }
+            }
+            Log.d("seleccionados", viewModel.selectedProductList.toString())
+        }
+//        Toast.makeText(context, "${viewModel.selectedProductList}", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun editProduct(product: Product){
+        val dialogFragment = EditStockDialogFragment()
         val args = Bundle()
         args.putString("email",email)
         args.putStringArrayList("productData", arrayListOf(
@@ -78,8 +128,8 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
             product.unidad
         ))
         dialogFragment.arguments = args
-//        Toast.makeText(context, args.toString(), Toast.LENGTH_SHORT).show()
-
         fragmentManager?.let { it1 -> dialogFragment.show(it1, "custom dialog") }
     }
+
+
 }

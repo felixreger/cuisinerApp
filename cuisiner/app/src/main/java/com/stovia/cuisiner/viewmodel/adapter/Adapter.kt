@@ -1,10 +1,13 @@
 package com.stovia.cuisiner.viewmodel.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 
 import androidx.recyclerview.widget.RecyclerView
 import com.stovia.cuisiner.R
@@ -15,27 +18,45 @@ class Adapter(private val context: Context, private val listener: OnItemClickLis
 
     var productList = mutableListOf<Product>()
 
-    inner class ViewHolder(itemView : View): RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    inner class ViewHolder(itemView : View): RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnLongClickListener  {
 
         val  itemNombre: TextView = itemView.findViewById(R.id.nombreDeProductoTextView)
         val  itemCantidad: TextView = itemView.findViewById(R.id.cantidadTextView)
         val  itemUnidad: TextView = itemView.findViewById(R.id.UnidadDeCantidadTextVIew)
+        val  relativeLayout: RelativeLayout = itemView.findViewById(R.id.itemViewLayout)
 
         init {
             itemView.setOnClickListener(this)
+            itemView.setOnLongClickListener(this)
         }
 
         override fun onClick(v: View?) {
             val position = adapterPosition
             if(position != RecyclerView.NO_POSITION){
-                listener.onItemClick(position)
-//                notifyDataSetChanged()
+                listener.onItemClick(position,relativeLayout)
             }
+//            relativeLayout.setBackgroundColor(android.graphics.Color.CYAN)
+        }
+
+        override fun onLongClick(v: View?): Boolean {
+            val position = adapterPosition
+            if(position != RecyclerView.NO_POSITION){
+                  notifyDataSetChanged()
+//                relativeLayout.setBackgroundColor(android.graphics.Color.CYAN)
+                listener.onLongClick(position,relativeLayout)
+                return true
+            }
+            return false
         }
     }
 
     interface OnItemClickListener{
-        fun onItemClick(position: Int)
+        fun onItemClick(position: Int,relativeLayout: RelativeLayout)
+        fun onLongClick(position: Int,relativeLayout: RelativeLayout)
+    }
+
+    fun setItemColor(){
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

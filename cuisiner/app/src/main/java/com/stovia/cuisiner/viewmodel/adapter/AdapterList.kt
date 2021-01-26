@@ -13,7 +13,7 @@ class AdapterList(private val context: Context, private val listener: OnItemClic
 
     var productList = mutableListOf<Product>()
 
-    inner class ViewHolder(itemView : View): RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    inner class ViewHolder(itemView : View): RecyclerView.ViewHolder(itemView), View.OnClickListener{
 
         val  itemNombre: TextView = itemView.findViewById(R.id.nombreReceta)
 
