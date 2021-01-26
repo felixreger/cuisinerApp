@@ -15,7 +15,10 @@ import com.stovia.cuisiner.ui.dialog.EditStockDialogFragment
 import com.stovia.cuisiner.ui.model.Product
 import com.stovia.cuisiner.viewmodel.adapter.Adapter
 import com.stovia.cuisiner.viewmodel.recipe.ViewModelIngredients
+import kotlinx.android.synthetic.main.fragment_ingredients.*
 import kotlinx.android.synthetic.main.fragment_list_recipe.*
+import kotlinx.android.synthetic.main.fragment_list_recipe.recyclerView
+import java.util.*
 
 class Ingredients : Fragment(), Adapter.OnItemClickListener {
 
@@ -39,15 +42,19 @@ class Ingredients : Fragment(), Adapter.OnItemClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_ingredients, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         adapter = Adapter(requireContext(), this)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
+
+        recipeNameText.text = nombreReceta.capitalize(Locale.ROOT)
 
         observeData()
 
@@ -57,6 +64,7 @@ class Ingredients : Fragment(), Adapter.OnItemClickListener {
         viewModel.getIngredientsListLiveData().observe(viewLifecycleOwner, Observer {
             adapter.setDataList(it)
             adapter.notifyDataSetChanged()
+            "Cantidad de ingredientes: ${adapter.getItemCount()}".also { recipeInfoText.text = it}
         })
     }
 
