@@ -1,5 +1,8 @@
 package com.stovia.cuisiner.viewmodel.stock
 
+import android.view.ActionMode
+import android.view.Menu
+import android.view.MenuInflater
 import android.widget.RelativeLayout
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.LiveData
@@ -16,6 +19,7 @@ class ViewModelList :  ViewModel(){
     var listData = MutableLiveData<MutableList<Product>>()
 
     var selectedProductList = ArrayList<Product>()
+
 
     fun getProductList(email:String) {
         listProductsUseCase.getProductList(email).observeForever {
@@ -42,5 +46,10 @@ class ViewModelList :  ViewModel(){
         product.selected = false
         selectedProductList.remove(product)
     }
+
+    private fun shareCurrentItem() {
+        TODO("Not yet implemented")
+    }
+
 
 }
