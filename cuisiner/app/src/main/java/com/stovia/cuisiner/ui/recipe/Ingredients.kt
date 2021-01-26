@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -60,7 +61,7 @@ class Ingredients : Fragment(), Adapter.OnItemClickListener {
         })
     }
 
-    override fun onItemClick(position: Int) {
+    override fun onItemClick(position: Int, relativeLayout: RelativeLayout) {
 //        Toast.makeText(context,"Click ${xd.nombre}", Toast.LENGTH_SHORT).show()
         val ingredient = adapter.getProductIndex(position)
 
@@ -79,6 +80,10 @@ class Ingredients : Fragment(), Adapter.OnItemClickListener {
 
         dialogFragment.show(requireFragmentManager(), "ad")
 //        fragmentManager?.let { it1 -> dialogFragment.show(it1, "custom dialog") }
+    }
+
+    override fun onLongClick(position: Int, relativeLayout: RelativeLayout) {
+        TODO("Not yet implemented")
     }
 
 }

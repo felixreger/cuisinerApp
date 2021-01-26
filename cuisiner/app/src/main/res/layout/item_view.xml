@@ -9,11 +9,15 @@
         android:layout_margin="4dp"
         android:clickable="true"
         android:focusable="true"
+
         app:cardCornerRadius="10dp" tools:ignore="MissingClass">
 
     <RelativeLayout
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:id="@+id/itemViewLayout"
+            android:background="@android:color/white"
             android:padding="20dp">
 
 
