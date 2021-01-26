@@ -18,15 +18,6 @@ class Product (val nombre: String? = "nombre",
         parcel.readString()) {
     }
 
-//    override fun onItemClick(position: Int) {
-//        selected = !selected
-//        Log.d("selected", selected.toString())
-//    }
-//
-//    override fun onLongClick(position: Int) {
-////        selected = !selected
-//    }
-
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(nombre)
         parcel.writeString(cantidad)

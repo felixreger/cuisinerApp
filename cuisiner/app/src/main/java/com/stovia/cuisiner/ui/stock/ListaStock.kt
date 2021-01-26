@@ -55,8 +55,6 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
         observeData()
 
         addProductButton.setOnClickListener {
-//            val action = ListaStockDirections.actionListaStockToAddStock(email)
-//            findNavController().navigate(action)
             val dialogFragment = AddStockDialogFragment()
             val args = Bundle()
             args.putString("email",email)
@@ -90,8 +88,6 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
                 }
             }
         }
-//            viewModel.selectedProductList = ArrayList()
-//        Toast.makeText(context, "${viewModel.selectedProductList}", Toast.LENGTH_SHORT).show()
         Log.d("seleccionados", viewModel.selectedProductList.toString())
 
     }
@@ -115,7 +111,6 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
             }
             Log.d("seleccionados", viewModel.selectedProductList.toString())
         }
-//        Toast.makeText(context, "${viewModel.selectedProductList}", Toast.LENGTH_SHORT).show()
     }
 
     private fun editProduct(product: Product){

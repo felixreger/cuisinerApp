@@ -35,14 +35,12 @@ class Adapter(private val context: Context, private val listener: OnItemClickLis
             if(position != RecyclerView.NO_POSITION){
                 listener.onItemClick(position,relativeLayout)
             }
-//            relativeLayout.setBackgroundColor(android.graphics.Color.CYAN)
         }
 
         override fun onLongClick(v: View?): Boolean {
             val position = adapterPosition
             if(position != RecyclerView.NO_POSITION){
                   notifyDataSetChanged()
-//                relativeLayout.setBackgroundColor(android.graphics.Color.CYAN)
                 listener.onLongClick(position,relativeLayout)
                 return true
             }
@@ -53,10 +51,6 @@ class Adapter(private val context: Context, private val listener: OnItemClickLis
     interface OnItemClickListener{
         fun onItemClick(position: Int,relativeLayout: RelativeLayout)
         fun onLongClick(position: Int,relativeLayout: RelativeLayout)
-    }
-
-    fun setItemColor(){
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
