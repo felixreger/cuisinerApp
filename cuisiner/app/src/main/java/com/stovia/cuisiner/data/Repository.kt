@@ -51,12 +51,13 @@ class Repository {
     }
 
     fun saveRecipe(email: String, nombre:String, product: Product): LiveData<Boolean>{
+        Log.d("producto2",product.toString())
         val mutableUserData = MutableLiveData<Boolean>()
         var aux :Boolean = false
         val clave = nombre.replace("\\s".toRegex(), "")
         db.collection("receta") //Busco en usuarios
             .document("$email#$clave" ?: "") //Por mail
-            .also {  it.set(hashMapOf("name" to nombre, "email" to email)) }
+            .also {  it.set(hashMapOf("email" to email, "name" to nombre)) }
             .collection("productos") //Busco en productos
             .document(product.nombre!!) //Por nombre de producto
             .set( //Se crea un documento por cada users y la clave es "email"

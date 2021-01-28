@@ -12,7 +12,6 @@ import com.stovia.cuisiner.ui.model.Product
 import com.stovia.cuisiner.ui.recipe.Ingredients
 import com.stovia.cuisiner.viewmodel.recipe.ViewModelEditIngredient
 import kotlinx.android.synthetic.main.fragment_edit_ingredient_dialog.view.*
-import kotlinx.android.synthetic.main.fragment_edit_stock_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_edit_stock_dialog.view.amountEditText
 import kotlinx.android.synthetic.main.fragment_edit_stock_dialog.view.cancelButton
 import kotlinx.android.synthetic.main.fragment_edit_stock_dialog.view.recipeName
@@ -43,9 +42,20 @@ class EditIngredientDialogFragment : DialogFragment() {
 
 
         rootView.saveButton.setOnClickListener {
+
+            //actualizar el ingrediente
+                // editar el parcelable
+                //construir un nuevo objecto
+            ingredient = Product(
+                rootView.ingredientNameText.text.toString(),
+                rootView.amountEditText.text.toString(),
+                rootView.unitEditText.text.toString()
+            )
+
             viewModelEditIngredient.saveData(
-                recipeName.toLowerCase(Locale.ROOT),
-                ingredient as Product
+                email,
+                recipeName,
+                ingredient as Product //todo falta actualizar
             )
             dismiss()
         }

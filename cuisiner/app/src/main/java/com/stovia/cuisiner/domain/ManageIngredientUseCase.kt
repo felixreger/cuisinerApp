@@ -8,19 +8,12 @@ class ManageIngredientUseCase {
     private val repository = Repository()
 
 
-    fun saveIngredient(recipeName: String,
-                          ingredient: Product
-                          ): LiveData<Boolean> {
-        return repository.saveRecipe("recipe",recipeName,ingredient)
+    fun saveIngredient(
+        email: String,
+        recipeName: String,
+        ingredient: Product
+    ): LiveData<Boolean> {
+        return repository.saveRecipe(email,recipeName,ingredient)
     }
 
-//    fun updateIngredient(
-//        email: String,
-//        recipeName: String,
-//        ingredientName: String,
-//        ingredientAmount: String,
-//        ingredientUnit: String
-//    ): LiveData<MutableList<Product>> {
-//        return repository.saveIngredient(email,recipeName,ingredientName,ingredientAmount,ingredientUnit)
-//    }
 }
