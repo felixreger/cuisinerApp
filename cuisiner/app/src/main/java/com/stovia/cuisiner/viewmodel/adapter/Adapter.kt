@@ -72,7 +72,12 @@ class Adapter(private val context: Context, private val listener: OnItemClickLis
         productList = user_products
     }
 
+    fun removeProduct(product: Product){
+        productList.remove(product)
+    }
+
     fun getProductIndex(position: Int): Product {
         return productList[position]
     }
+
 }

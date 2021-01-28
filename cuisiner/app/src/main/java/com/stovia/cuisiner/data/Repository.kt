@@ -53,7 +53,6 @@ class Repository {
     fun saveRecipe(email: String, nombre:String, product: Product): LiveData<Boolean>{
         Log.d("producto2",product.toString())
         val mutableUserData = MutableLiveData<Boolean>()
-        var aux :Boolean = false
         val clave = nombre.replace("\\s".toRegex(), "")
         db.collection("receta") //Busco en usuarios
             .document("$email#$clave" ?: "") //Por mail
@@ -63,9 +62,8 @@ class Repository {
             .set( //Se crea un documento por cada users y la clave es "email"
                 hashMapOf("cantidad" to product.cantidad, "unidad" to product.unidad)
             ).addOnCompleteListener {
-                aux = it.isSuccessful
+                mutableUserData.value = it.isSuccessful
             }
-        mutableUserData.value = aux
         return mutableUserData
     }
 
@@ -120,7 +118,6 @@ class Repository {
     }
 
     fun saveProduct(email: String, amount: String, unit: String, productName: String): LiveData<Boolean>{
-        var aux:Boolean = false
         val mutableUserData = MutableLiveData<Boolean>()
 
         db.collection("usuarios") //Busco en usuarios
@@ -133,10 +130,8 @@ class Repository {
                     "unidad" to unit
                 )
             ).addOnCompleteListener {
-            aux = it.isSuccessful
+                mutableUserData.value  = it.isSuccessful
         }
-        mutableUserData.value = aux
-
         return mutableUserData
     }
 
@@ -146,17 +141,14 @@ class Repository {
     }*/
 
     fun deleteProduct(email: String, productName: String): LiveData<Boolean> {
-        var aux: Boolean = false
         val mutableUserData = MutableLiveData<Boolean>()
 
         db.collection("usuarios") //Busco en usuarios
             .document(email ?: "") //Por mail
             .collection("productos") //Busco en productos
             .document(productName).delete().addOnCompleteListener {
-                aux = it.isSuccessful
+                mutableUserData.value= it.isSuccessful
             }
-        mutableUserData.value = aux
-
         return mutableUserData
     }
 }

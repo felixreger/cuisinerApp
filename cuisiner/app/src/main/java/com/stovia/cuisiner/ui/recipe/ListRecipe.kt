@@ -15,17 +15,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.stovia.cuisiner.R
-import com.stovia.cuisiner.ui.LoginFragmentDirections
 import com.stovia.cuisiner.ui.dialog.AddStockDialogFragment
 import com.stovia.cuisiner.ui.dialog.RecipeSetFragmentDialog
 import com.stovia.cuisiner.ui.model.Product
 import com.stovia.cuisiner.viewmodel.adapter.AdapterList
-import com.stovia.cuisiner.viewmodel.adapter.AdapterRecipe
 
 import com.stovia.cuisiner.viewmodel.recipe.ViewModelListRecipe
 
 import kotlinx.android.synthetic.main.fragment_list_recipe.*
-import java.util.*
 
 class ListRecipe : Fragment(), AdapterList.OnItemClickListener,
     RecipeSetFragmentDialog.NoticeDialogListener {
@@ -43,8 +40,8 @@ class ListRecipe : Fragment(), AdapterList.OnItemClickListener,
         super.onCreate(savedInstanceState)
         email = ListRecipeArgs.fromBundle(requireArguments()).email
         //quiero todos los detalles de los productos asociados al email
-        //todo ya esta hecho, pero no tengo el control
         viewModel.getProductosDisponibles(email)
+
     }
 
     override fun onCreateView(
@@ -63,7 +60,6 @@ class ListRecipe : Fragment(), AdapterList.OnItemClickListener,
         observeData()
         getSave()
 
-
         saveData.setOnClickListener {
             //Si todavia no se seteo el nombre, abre el pop up para setearl
             if(newRecipeName == "default"){
@@ -77,6 +73,16 @@ class ListRecipe : Fragment(), AdapterList.OnItemClickListener,
                 findNavController().navigate(action)
             }
         }
+
+        addProducts.setOnClickListener{
+            val dialogFragment = AddStockDialogFragment()
+            val args = Bundle()
+            args.putString("email",email)
+            dialogFragment.arguments = args
+            fragmentManager?.let { it1 -> dialogFragment.show(it1, "custom dialog") }
+
+        }
+
     }
 
     private fun saveDataRecipe(nombre:String){

@@ -20,4 +20,13 @@ class ListProductsUseCase{
         return mutableData
     }
 
+    fun deleteProducts(email: String, product: String): LiveData<Boolean> {
+        val mutableUserData = MutableLiveData<Boolean>()
+        repository.deleteProduct(email, product).observeForever {
+            mutableUserData.value = it
+        }
+        return mutableUserData
+    }
+
+
 }

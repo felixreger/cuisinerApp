@@ -147,7 +147,8 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
             return when (item.itemId) {
                 R.id.menu_delete -> {
                     Toast.makeText(context, "delete", Toast.LENGTH_SHORT).show()
-                    // TODO: 26/01/21 Borrar.exe 
+                    // TODO: 26/01/21 Borrar.exe
+                    viewModel.deleteProducts(email)
                     mode.finish() // Action picked, so close the CAB
                     true
                 }

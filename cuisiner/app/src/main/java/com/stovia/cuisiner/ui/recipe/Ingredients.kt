@@ -78,7 +78,6 @@ class Ingredients : Fragment(), Adapter.OnItemClickListener {
         args.putString("email",email)
         args.putString("recipeName",nombreReceta)
 
-
         //todo ver si puedo pasarlo asi: ingredient as Product
         args.putParcelable("ingredient",ingredient)
 
