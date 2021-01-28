@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.stovia.cuisiner.R
@@ -15,7 +16,8 @@ class AdapterList(private val context: Context, private val listener: OnItemClic
 
     inner class ViewHolder(itemView : View): RecyclerView.ViewHolder(itemView), View.OnClickListener{
 
-        val  itemNombre: TextView = itemView.findViewById(R.id.nombreReceta)
+        val itemNombre: TextView = itemView.findViewById(R.id.nombreReceta)
+        val itemLayout : RelativeLayout = itemView.findViewById(R.id.itemRelativeLayout)
 
         init {
             itemView.setOnClickListener(this)
@@ -24,13 +26,13 @@ class AdapterList(private val context: Context, private val listener: OnItemClic
         override fun onClick(v: View?) {
             val position = adapterPosition
             if(position != RecyclerView.NO_POSITION){
-                listener.onItemClick(position)
+                listener.onItemClick(position,itemLayout)
             }
         }
     }
 
     interface OnItemClickListener{
-        fun onItemClick(position: Int)
+        fun onItemClick(position: Int,itemLayout : RelativeLayout)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

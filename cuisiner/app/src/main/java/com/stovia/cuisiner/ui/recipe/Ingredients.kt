@@ -70,7 +70,6 @@ class Ingredients : Fragment(), Adapter.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int, relativeLayout: RelativeLayout) {
-//        Toast.makeText(context,"Click ${xd.nombre}", Toast.LENGTH_SHORT).show()
         val ingredient = adapter.getProductIndex(position)
 
         val dialogFragment = EditIngredientDialogFragment()
