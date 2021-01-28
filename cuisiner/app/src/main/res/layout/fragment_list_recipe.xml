@@ -43,5 +43,12 @@
             android:id="@+id/saveData"
             android:backgroundTint="@color/colorPrimary"
         />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addProducts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp" android:layout_marginBottom="24dp"
+        android:clickable="true" android:src="@drawable/home"
+        app:layout_constraintBottom_toTopOf="@+id/saveData" app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

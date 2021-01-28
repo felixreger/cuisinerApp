@@ -16,7 +16,6 @@ import com.stovia.cuisiner.ui.dialog.AddStockDialogFragment
 import com.stovia.cuisiner.ui.dialog.RecipeSetFragmentDialog
 import com.stovia.cuisiner.ui.model.Product
 import com.stovia.cuisiner.viewmodel.adapter.AdapterList
-import com.stovia.cuisiner.viewmodel.adapter.AdapterRecipe
 
 import com.stovia.cuisiner.viewmodel.recipe.ViewModelListRecipe
 
@@ -37,8 +36,8 @@ class ListRecipe : Fragment(), AdapterList.OnItemClickListener,
         super.onCreate(savedInstanceState)
         email = ListRecipeArgs.fromBundle(requireArguments()).email
         //quiero todos los detalles de los productos asociados al email
-        //todo ya esta hecho, pero no tengo el control
         viewModel.getProductosDisponibles(email)
+
     }
 
     override fun onCreateView(
@@ -57,16 +56,23 @@ class ListRecipe : Fragment(), AdapterList.OnItemClickListener,
         observeData()
         getSave()
 
-
         saveData.setOnClickListener {
-
             val dialogFragment = RecipeSetFragmentDialog()
-//            dialogFragment.setTargetFragment(this, 0)
 
-            dialogFragment.setTargetFragment(this, 1);
-            dialogFragment.show(requireFragmentManager(), "MyCustomDialog");
+            dialogFragment.setTargetFragment(this, 1)
+            dialogFragment.show(requireFragmentManager(), "MyCustomDialog")
 
         }
+
+        addProducts.setOnClickListener{
+            val dialogFragment = AddStockDialogFragment()
+            val args = Bundle()
+            args.putString("email",email)
+            dialogFragment.arguments = args
+            fragmentManager?.let { it1 -> dialogFragment.show(it1, "custom dialog") }
+
+        }
+
     }
 
     private fun saveDataRecipe(nombre:String){

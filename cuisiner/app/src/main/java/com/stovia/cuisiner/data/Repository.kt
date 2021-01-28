@@ -52,19 +52,17 @@ class Repository {
 
     fun saveRecipe(email: String, nombre:String, product: Product): LiveData<Boolean>{
         val mutableUserData = MutableLiveData<Boolean>()
-        var aux :Boolean = false
         val clave = nombre.replace("\\s".toRegex(), "")
         db.collection("receta") //Busco en usuarios
             .document("$email#$clave" ?: "") //Por mail
-            .also {  it.set(hashMapOf("name" to nombre, "email" to email)) }
+            .also {  it.set(hashMapOf("email" to email, "name" to nombre)) }
             .collection("productos") //Busco en productos
             .document(product.nombre!!) //Por nombre de producto
             .set( //Se crea un documento por cada users y la clave es "email"
                 hashMapOf("cantidad" to product.cantidad, "unidad" to product.unidad)
             ).addOnCompleteListener {
-                aux = it.isSuccessful
+                mutableUserData.value = it.isSuccessful
             }
-        mutableUserData.value = aux
         return mutableUserData
     }
 
@@ -119,7 +117,6 @@ class Repository {
     }
 
     fun saveProduct(email: String, amount: String, unit: String, productName: String): LiveData<Boolean>{
-        var aux:Boolean = false
         val mutableUserData = MutableLiveData<Boolean>()
 
         db.collection("usuarios") //Busco en usuarios
@@ -132,10 +129,8 @@ class Repository {
                     "unidad" to unit
                 )
             ).addOnCompleteListener {
-            aux = it.isSuccessful
+                mutableUserData.value  = it.isSuccessful
         }
-        mutableUserData.value = aux
-
         return mutableUserData
     }
 
@@ -145,17 +140,14 @@ class Repository {
     }*/
 
     fun deleteProduct(email: String, productName: String): LiveData<Boolean> {
-        var aux: Boolean = false
         val mutableUserData = MutableLiveData<Boolean>()
 
         db.collection("usuarios") //Busco en usuarios
             .document(email ?: "") //Por mail
             .collection("productos") //Busco en productos
             .document(productName).delete().addOnCompleteListener {
-                aux = it.isSuccessful
+                mutableUserData.value= it.isSuccessful
             }
-        mutableUserData.value = aux
-
         return mutableUserData
     }
 }
