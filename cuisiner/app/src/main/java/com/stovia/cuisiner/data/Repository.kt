@@ -1,6 +1,7 @@
 package com.stovia.cuisiner.data
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
@@ -10,7 +11,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.stovia.cuisiner.ui.model.Product
 import com.stovia.cuisiner.ui.model.UserData
 
-class Repository {
+class  Repository {
 
     private val db = FirebaseFirestore.getInstance()
     private var firebaseAuth = FirebaseAuth.getInstance()
@@ -65,6 +66,22 @@ class Repository {
                 mutableUserData.value = it.isSuccessful
             }
         return mutableUserData
+    }
+
+    fun deleteRecipe(email : String, recipeName : String){
+//        val mutableUserData = MutableLiveData<Boolean>()
+//        val key = recipeName.replace("\\s".toRegex(), "")
+//        db.collection("receta") //Busco en usuarios
+//            .document("$email#$recipeName" ?: "") //Por mail
+//            .collection("productos") //Busco en productos
+//            .get().addOnSuccessListener { result ->
+//                val listData = mutableListOf<String>()
+//                for (i in result) {
+//
+//                }
+//                mutableData.value = listData
+//            }
+//        return mutableUserData
     }
 
     //con el mail y el nombre de la recetas me devuelve los ingredientes con cantidad y unidad

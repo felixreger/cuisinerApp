@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.google.common.base.Verify
 import com.stovia.cuisiner.R
@@ -40,8 +41,12 @@ class RecipeSetFragmentDialog : DialogFragment() {
 //        listener = inflater.context as NoticeDialogListener
 
         rootView.saveButton.setOnClickListener{
-            listener.onDialogSaveRecipe(this,rootView.recipeNameEditText.text.toString())
-            dismiss()
+            if(rootView.recipeNameEditText.text.isNotBlank()){
+                listener.onDialogSaveRecipe(this,rootView.recipeNameEditText.text.toString())
+                dismiss()
+            }else{
+                Toast.makeText(context,"Por favor, ingrese un nombre para la receta",Toast.LENGTH_SHORT).show()
+            }
         }
 
         rootView.cancelButton.setOnClickListener {

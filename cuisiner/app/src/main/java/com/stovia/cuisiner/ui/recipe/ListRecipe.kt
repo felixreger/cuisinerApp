@@ -1,10 +1,9 @@
 package com.stovia.cuisiner.ui.recipe
 
 import android.os.Bundle
+import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.compose.ui.graphics.Color
@@ -21,6 +20,7 @@ import com.stovia.cuisiner.ui.model.Product
 import com.stovia.cuisiner.viewmodel.adapter.AdapterList
 
 import com.stovia.cuisiner.viewmodel.recipe.ViewModelListRecipe
+import com.stovia.cuisiner.viewmodel.recipe.ViewModelRecipe
 
 import kotlinx.android.synthetic.main.fragment_list_recipe.*
 
@@ -31,9 +31,14 @@ class ListRecipe : Fragment(), AdapterList.OnItemClickListener,
     private lateinit var email: String
     private val productos = mutableListOf<Int>()
     private var newRecipeName : String = "default"
+    private val recipeNameAsigned : Boolean = false
 
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(ViewModelListRecipe::class.java)
+    }
+
+    private val viewModelReceta by lazy {
+        ViewModelProviders.of(this).get(ViewModelRecipe::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +46,7 @@ class ListRecipe : Fragment(), AdapterList.OnItemClickListener,
         email = ListRecipeArgs.fromBundle(requireArguments()).email
         //quiero todos los detalles de los productos asociados al email
         viewModel.getProductosDisponibles(email)
-
+        viewModelReceta.getRecipeList(email)
     }
 
     override fun onCreateView(
@@ -62,15 +67,27 @@ class ListRecipe : Fragment(), AdapterList.OnItemClickListener,
 
         saveData.setOnClickListener {
             //Si todavia no se seteo el nombre, abre el pop up para setearl
-            if(newRecipeName == "default"){
+            if(!recipeNameAsigned){
                 val dialogFragment = RecipeSetFragmentDialog()
                 dialogFragment.setTargetFragment(this, 1);
                 dialogFragment.show(requireFragmentManager(), "MyCustomDialog");
             }else{
-                saveDataRecipe(newRecipeName)
-                Toast.makeText(context,"Receta guardada correctamente", Toast.LENGTH_SHORT).show()
-                val action = ListRecipeDirections.actionListProductsRecipeToReceta(email)
-                findNavController().navigate(action)
+                if(productos.isNotEmpty()){
+                    val recipeNames = viewModelReceta.getRecipeListLiveData().value
+                    // TODO: 01/02/21 Esto de usar dos viewmodels es una crotada, hay que cambiarlo
+                    if (recipeNames != null) {
+                        if(!recipeNames.contains(newRecipeName)){
+                            saveDataRecipe(newRecipeName)
+                            Toast.makeText(context,"Receta guardada correctamente", Toast.LENGTH_SHORT).show()
+                            val action = ListRecipeDirections.actionListProductsRecipeToReceta(email)
+                            findNavController().navigate(action)
+                        }else{
+                            Toast.makeText(context,"No puede haber dos recetas con el mismo nombre",Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }else{
+                    Toast.makeText(context,"La receta no tiene ingredientes",Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
@@ -130,4 +147,5 @@ class ListRecipe : Fragment(), AdapterList.OnItemClickListener,
     override fun onDialogCancelRecipe(dialog: DialogFragment) {
         Toast.makeText(context,"Receta cancelada",Toast.LENGTH_SHORT).show()
     }
+
 }

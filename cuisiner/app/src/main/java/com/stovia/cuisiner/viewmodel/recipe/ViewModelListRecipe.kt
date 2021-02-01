@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.stovia.cuisiner.R
+import com.stovia.cuisiner.data.Repository
 import com.stovia.cuisiner.domain.RecipeListUseCase
 import com.stovia.cuisiner.ui.model.Product
 
@@ -53,4 +54,14 @@ class ViewModelListRecipe: ViewModel() {
     fun setRecipeName(nombre: String) {
         recipeName = nombre
     }
+
+//    fun getRecipesNames(email : String): LiveData<MutableList<String>> {
+//        var repository = Repository()
+//        val mutableData = MutableLiveData<MutableList<String>>()
+//
+//        repository.getUserRecipe(email).observeForever {
+//            mutableData.value = it
+//        }
+//        return mutableData
+//    }
 }
