@@ -69,7 +69,7 @@ class Ingredients : Fragment(), Adapter.OnItemClickListener {
         })
     }
 
-    override fun onItemClick(position: Int, relativeLayout: RelativeLayout) {
+    override fun onItemClick(position: Int) {
         val ingredient = adapter.getProductIndex(position)
 
         val dialogFragment = EditIngredientDialogFragment()
@@ -88,7 +88,7 @@ class Ingredients : Fragment(), Adapter.OnItemClickListener {
 //        fragmentManager?.let { it1 -> dialogFragment.show(it1, "custom dialog") }
     }
 
-    override fun onLongClick(position: Int, relativeLayout: RelativeLayout) {
+    override fun onLongClick(position: Int) {
     }
 
 }

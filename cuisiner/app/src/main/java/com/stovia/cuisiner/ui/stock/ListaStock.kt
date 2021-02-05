@@ -66,30 +66,6 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
         })
     }
 
-
-
-    override fun onItemClick(position: Int, relativeLayout: RelativeLayout) {
-        val product = adapter.getProductIndex(position)
-
-        //solamente si esta vacia la lista funciona el edit
-        if(!isContextualModeEnabled){
-            editProduct(product)
-        }
-        else{
-            if(!product.selected){
-                viewModel.selectProduct(product,relativeLayout)
-            }
-            else{
-                viewModel.unselectProduct(product,relativeLayout)
-                if (viewModel.selectedProductList.isEmpty()){
-                    isContextualModeEnabled = false
-                    actionMode?.finish()
-                }
-            }
-            Log.d("seleccionados", viewModel.selectedProductList.toString())
-        }
-    }
-
     private fun editProduct(product: Product){
         val dialogFragment = EditStockDialogFragment()
         val args = Bundle()
@@ -103,20 +79,45 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
         fragmentManager?.let { it1 -> dialogFragment.show(it1, "custom dialog") }
     }
 
-    override fun onLongClick(position: Int, relativeLayout: RelativeLayout) {
+    override fun onItemClick(position: Int) {
         val product = adapter.getProductIndex(position)
 
-        if(viewModel.selectedProductList.isEmpty()){
-            actionMode = activity?.startActionMode(actionModeCallback)
+        //solamente si esta vacia la lista funciona el edit
+        if(!isContextualModeEnabled){
+            editProduct(product)
+        }
+        else{
+            if(!product.selected){
+                viewModel.selectProduct(product)
+            }
+            else{
+                viewModel.unselectProduct(product)
+                if (viewModel.selectedProductList.isEmpty()){
+                    isContextualModeEnabled = false
+                    actionMode?.finish()
+                }
+            }
+            Log.d("seleccionados", viewModel.selectedProductList.toString())
+        }
+    }
+
+
+
+    override fun onLongClick(position: Int) {
+        val product = adapter.getProductIndex(position)
+
+        if(!isContextualModeEnabled){
+            viewModel.selectedProductList = ArrayList<Product>()
+            actionMode = requireActivity().startActionMode(actionModeCallback)
             isContextualModeEnabled = true
-            viewModel.selectProduct(product,relativeLayout)
+            viewModel.selectProduct(product)
         }
         else{
             if (!product.selected){ //si el producto no esta agregado lo agrega
-                viewModel.selectProduct(product,relativeLayout)
+                viewModel.selectProduct(product)
             }
             else{ //si el producto esta agregado lo saca
-                viewModel.unselectProduct(product,relativeLayout)
+                viewModel.unselectProduct(product)
                 if (viewModel.selectedProductList.isEmpty()){
                     isContextualModeEnabled = false
                     actionMode?.finish()
@@ -124,7 +125,6 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
             }
         }
         Log.d("seleccionados", viewModel.selectedProductList.toString())
-
     }
 
     private val actionModeCallback = object : ActionMode.Callback {
@@ -158,6 +158,9 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
 
         // Called when the user exits the action mode
         override fun onDestroyActionMode(mode: ActionMode) {
+            viewModel.unselectProducts()
+            adapter.update()
+            isContextualModeEnabled = false
             actionMode = null
         }
     }

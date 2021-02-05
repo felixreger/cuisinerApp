@@ -2,6 +2,7 @@ package com.stovia.cuisiner.viewmodel.adapter
 
 import android.content.Context
 import android.content.ReceiverCallNotAllowedException
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,14 +32,14 @@ class AdapterRecipe(private val context: Context, private val listener: OnItemCl
         override fun onClick(v: View?) {
             val position = adapterPosition
             if(position != RecyclerView.NO_POSITION){
-                listener.onItemClick(position,itemViewRelativeLayout)
+                listener.onItemClick(position)
             }
         }
 
         override fun onLongClick(v: View?): Boolean {
             val position = adapterPosition
             if(position != RecyclerView.NO_POSITION){
-                listener.onLongClick(position,itemViewRelativeLayout)
+                listener.onLongClick(position)
                 return true
             }
             return false
@@ -46,8 +47,8 @@ class AdapterRecipe(private val context: Context, private val listener: OnItemCl
     }
 
     interface OnItemClickListener{
-        fun onItemClick(position: Int,relativeLayout: RelativeLayout)
-        fun onLongClick(position: Int,relativeLayout: RelativeLayout)
+        fun onItemClick(position: Int)
+        fun onLongClick(position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

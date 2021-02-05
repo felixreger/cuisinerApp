@@ -36,13 +36,11 @@ class ViewModelRecipe :  ViewModel(){
         return listData
     }
 
-    fun selectRecipe(recipe: String, relativeLayout: RelativeLayout) {
-        relativeLayout.setBackgroundColor(R.attr.colorPrimary)
+    fun selectRecipe(recipe: String) {
         selectedRecipeList.add(recipe)
     }
 
-    fun unselectRecipe(recipe: String, relativeLayout: RelativeLayout){
-        relativeLayout.setBackgroundColor(Color.hashCode())
+    fun unselectRecipe(recipe: String){
         selectedRecipeList.remove(recipe)
     }
 

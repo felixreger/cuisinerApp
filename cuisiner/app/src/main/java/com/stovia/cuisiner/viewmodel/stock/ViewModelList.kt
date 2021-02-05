@@ -36,16 +36,14 @@ class ViewModelList :  ViewModel(){
         return listData
     }
 
-    fun selectProduct(product: Product, relativeLayout: RelativeLayout) {
-        relativeLayout.setBackgroundColor(R.attr.colorPrimary)
+    fun selectProduct(product: Product) {
         selectedProductList.add(product)
         product.selected = true
     }
 
-    fun unselectProduct(product: Product, relativeLayout: RelativeLayout){
-        relativeLayout.setBackgroundColor(Color.hashCode())
-        product.selected = false
+    fun unselectProduct(product: Product){
         selectedProductList.remove(product)
+        product.selected = false
     }
 
     private fun shareCurrentItem() {
@@ -59,12 +57,14 @@ class ViewModelList :  ViewModel(){
                 result.value = it
             }
         }
+
     }
 
-    fun getResult(): LiveData<Boolean>{
-        return result
+    fun unselectProducts() {
+        for (product in selectedProductList){
+           product.selected = false
+        }
     }
-
 
 
 }

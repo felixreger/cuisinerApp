@@ -1,6 +1,7 @@
 package com.stovia.cuisiner.viewmodel.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,6 +42,15 @@ class AdapterList(private val context: Context, private val listener: OnItemClic
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        if(getProductIndex(position).selected){
+            holder.itemLayout.setBackgroundResource(R.color.colorPrimary)
+//            holder.itemNombre.setTextColor(Color.WHITE)
+//            holder.itemCantidad.setTextColor(Color.WHITE)
+//            holder.itemUnidad.setTextColor(Color.WHITE)
+        }else{
+            holder.itemLayout.setBackgroundColor(Color.TRANSPARENT)
+//            Falta ponerle el color viejo, no se como obtenerlo desde R
+        }
         holder.itemNombre.text = productList[position].nombre
     }
 

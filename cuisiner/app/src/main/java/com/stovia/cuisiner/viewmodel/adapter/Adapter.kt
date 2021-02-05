@@ -8,17 +8,16 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
-
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.RecyclerView
 import com.stovia.cuisiner.R
-
 import com.stovia.cuisiner.ui.model.Product
 
 class Adapter(private val context: Context, private val listener: OnItemClickListener): RecyclerView.Adapter<Adapter.ViewHolder>() {
 
     var productList = mutableListOf<Product>()
 
-    inner class ViewHolder(itemView : View): RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnLongClickListener  {
+    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnLongClickListener  {
 
         val  itemNombre: TextView = itemView.findViewById(R.id.nombreDeProductoTextView)
         val  itemCantidad: TextView = itemView.findViewById(R.id.cantidadTextView)
@@ -32,16 +31,21 @@ class Adapter(private val context: Context, private val listener: OnItemClickLis
 
         override fun onClick(v: View?) {
             val position = adapterPosition
+            Toast.makeText(context,"Clicked ${position}",Toast.LENGTH_SHORT).show()
             if(position != RecyclerView.NO_POSITION){
-                listener.onItemClick(position,relativeLayout)
+                notifyDataSetChanged()
+                listener.onItemClick(position)
             }
         }
 
+
+
         override fun onLongClick(v: View?): Boolean {
             val position = adapterPosition
+            Toast.makeText(context,"Clicked ${position}",Toast.LENGTH_SHORT).show()
             if(position != RecyclerView.NO_POSITION){
-                  notifyDataSetChanged()
-                listener.onLongClick(position,relativeLayout)
+                notifyDataSetChanged()
+                listener.onLongClick(position)
                 return true
             }
             return false
@@ -49,16 +53,28 @@ class Adapter(private val context: Context, private val listener: OnItemClickLis
     }
 
     interface OnItemClickListener{
-        fun onItemClick(position: Int,relativeLayout: RelativeLayout)
-        fun onLongClick(position: Int,relativeLayout: RelativeLayout)
+        fun onItemClick(position: Int)
+        fun onLongClick(position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_view, parent,false)
+        val view = LayoutInflater.from(context).inflate(R.layout.item_view, parent, false)
         return ViewHolder(view)
     }
 
+    fun update(){
+        notifyDataSetChanged()
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        if(getProductIndex(position).selected){
+            holder.relativeLayout.setBackgroundResource(R.color.colorPrimary)
+//            holder.itemNombre.setTextColor(Color.WHITE)
+//            holder.itemCantidad.setTextColor(Color.WHITE)
+//            holder.itemUnidad.setTextColor(Color.WHITE)
+        }else{
+            holder.relativeLayout.setBackgroundColor(Color.WHITE)
+        }
         holder.itemNombre.text = productList[position].nombre
         holder.itemCantidad.text = productList[position].cantidad
         holder.itemUnidad.text = productList[position].unidad
@@ -79,5 +95,4 @@ class Adapter(private val context: Context, private val listener: OnItemClickLis
     fun getProductIndex(position: Int): Product {
         return productList[position]
     }
-
 }

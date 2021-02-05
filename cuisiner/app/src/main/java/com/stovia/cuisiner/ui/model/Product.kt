@@ -32,11 +32,11 @@ class Product (val nombre: String? = "nombre",
         return "Producto(nombre=$nombre, cantidad=$cantidad, unidad=$unidad)"
     }
 
-    override fun onItemClick(position: Int, relativeLayout: RelativeLayout) {
+    override fun onItemClick(position: Int) {
 
     }
 
-    override fun onLongClick(position: Int, relativeLayout: RelativeLayout) {
+    override fun onLongClick(position: Int) {
 
     }
 

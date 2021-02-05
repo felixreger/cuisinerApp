@@ -60,43 +60,42 @@ class Recipe : Fragment() , AdapterRecipe.OnItemClickListener {
         })
     }
 
-    override fun onItemClick(position: Int, relativeLayout: RelativeLayout) {
+    override fun onItemClick(position: Int) {
         if (!viewModel.isContextualModeEnabled){
             val action = RecipeDirections.actionRecetaToIngredients(email, adapter.getRecipeIndex(position))
             findNavController().navigate(action)
         }else{
             val recipe = adapter.getRecipeIndex(position)
             if(viewModel.selectedRecipeList.contains(recipe)){
-                viewModel.unselectRecipe(recipe,relativeLayout)
+                viewModel.unselectRecipe(recipe)
                 if (viewModel.selectedRecipeList.isEmpty()){
                     viewModel.isContextualModeEnabled = false
                 }
             }
             else{
-                viewModel.selectRecipe(recipe,relativeLayout)
-
+                viewModel.selectRecipe(recipe)
             }
         }
     }
 
-    override fun onLongClick(position: Int, relativeLayout: RelativeLayout) {
+    override fun onLongClick(position: Int) {
         val recipe = adapter.getRecipeIndex(position)
 
         if(!viewModel.isContextualModeEnabled){
             actionMode = activity?.startActionMode(actionModeCallback)
-            viewModel.selectRecipe(recipe,relativeLayout)
+            viewModel.selectRecipe(recipe)
             viewModel.isContextualModeEnabled = true
         }
         else{
             if(viewModel.selectedRecipeList.contains(recipe)){
-                viewModel.unselectRecipe(recipe,relativeLayout)
+                viewModel.unselectRecipe(recipe)
                 if (viewModel.selectedRecipeList.isEmpty()){
                     viewModel.isContextualModeEnabled = false
                     actionMode?.finish()
                 }
             }
             else{
-                viewModel.selectRecipe(recipe,relativeLayout)
+                viewModel.selectRecipe(recipe)
             }
         }
     }
