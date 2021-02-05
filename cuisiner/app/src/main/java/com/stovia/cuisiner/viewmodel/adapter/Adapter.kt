@@ -62,10 +62,6 @@ class Adapter(private val context: Context, private val listener: OnItemClickLis
         return ViewHolder(view)
     }
 
-    fun update(){
-        notifyDataSetChanged()
-    }
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if(getProductIndex(position).selected){
             holder.relativeLayout.setBackgroundResource(R.color.colorPrimary)

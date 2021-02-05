@@ -1,7 +1,6 @@
 package com.stovia.cuisiner.ui.recipe
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.RelativeLayout
@@ -128,14 +127,12 @@ class ListRecipe : Fragment(), AdapterList.OnItemClickListener,
         })
     }
 
-    override fun onItemClick(position: Int,relativeLayout: RelativeLayout) {
+    override fun onItemClick(position: Int) {
         if(!productos.contains(position)){
             //adapter.changeItem(position)
-            relativeLayout.setBackgroundColor(R.attr.colorPrimary)
             productos.add(position)
         }else {
             //adapter.changeItem(position)
-            relativeLayout.setBackgroundColor(Color.hashCode())
             productos.remove(position)
         }
     }

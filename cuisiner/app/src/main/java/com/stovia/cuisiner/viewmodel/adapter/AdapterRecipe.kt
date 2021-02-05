@@ -1,7 +1,6 @@
 package com.stovia.cuisiner.viewmodel.adapter
 
 import android.content.Context
-import android.content.ReceiverCallNotAllowedException
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -11,18 +10,17 @@ import android.widget.TextView
 
 import androidx.recyclerview.widget.RecyclerView
 import com.stovia.cuisiner.R
-import com.stovia.cuisiner.ui.model.Product
-import com.stovia.cuisiner.ui.recipe.Recipe
+import com.stovia.cuisiner.ui.model.Recipe
 
 class AdapterRecipe(private val context: Context, private val listener: OnItemClickListener): RecyclerView.Adapter<AdapterRecipe.ViewHolder>() {
 
-    var recipeList = mutableListOf<String>()
+    var recipeList = mutableListOf<Recipe>()
 
     inner class ViewHolder(itemView : View): RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnLongClickListener {
 
         val  itemNombre: TextView = itemView.findViewById(R.id.nombreReceta)
 
-        val itemViewRelativeLayout : RelativeLayout = itemView.findViewById(R.id.itemRelativeLayout)
+        val itemLayout : RelativeLayout = itemView.findViewById(R.id.itemRelativeLayout)
 
         init {
             itemView.setOnClickListener(this)
@@ -32,6 +30,7 @@ class AdapterRecipe(private val context: Context, private val listener: OnItemCl
         override fun onClick(v: View?) {
             val position = adapterPosition
             if(position != RecyclerView.NO_POSITION){
+                notifyDataSetChanged()
                 listener.onItemClick(position)
             }
         }
@@ -39,6 +38,7 @@ class AdapterRecipe(private val context: Context, private val listener: OnItemCl
         override fun onLongClick(v: View?): Boolean {
             val position = adapterPosition
             if(position != RecyclerView.NO_POSITION){
+                notifyDataSetChanged()
                 listener.onLongClick(position)
                 return true
             }
@@ -57,18 +57,23 @@ class AdapterRecipe(private val context: Context, private val listener: OnItemCl
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemNombre.text = recipeList[position]
+        if(getRecipeIndex(position).selected){
+            holder.itemLayout.setBackgroundResource(R.color.colorPrimary)
+        }else{
+            holder.itemLayout.setBackgroundColor(Color.WHITE)
+        }
+        holder.itemNombre.text = recipeList[position].name
     }
 
     override fun getItemCount(): Int {
         return  recipeList.size
     }
 
-    fun setDataList(recipe: MutableList<String>) {
+    fun setDataList(recipe: MutableList<Recipe>) {
         recipeList = recipe
     }
 
-    fun getRecipeIndex(position: Int): String {
+    fun getRecipeIndex(position: Int): Recipe {
         return recipeList[position]
     }
 }

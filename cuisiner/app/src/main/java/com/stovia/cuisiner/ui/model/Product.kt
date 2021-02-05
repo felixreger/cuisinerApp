@@ -50,6 +50,8 @@ class Product (val nombre: String? = "nombre",
         if (cantidad != other.cantidad) return false
         if (unidad != other.unidad) return false
         if (selected != other.selected) return false
+//todo, no tiene que comparar el selected al momento de ver si contiene la lista al producto del que estamos hablando
+
 
         return true
     }

@@ -27,13 +27,13 @@ class AdapterList(private val context: Context, private val listener: OnItemClic
         override fun onClick(v: View?) {
             val position = adapterPosition
             if(position != RecyclerView.NO_POSITION){
-                listener.onItemClick(position,itemLayout)
+                listener.onItemClick(position)
             }
         }
     }
 
     interface OnItemClickListener{
-        fun onItemClick(position: Int,itemLayout : RelativeLayout)
+        fun onItemClick(position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

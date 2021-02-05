@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
-import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -12,11 +11,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.stovia.cuisiner.R
+import com.stovia.cuisiner.ui.model.Recipe
 import com.stovia.cuisiner.viewmodel.recipe.ViewModelRecipe
 import com.stovia.cuisiner.viewmodel.adapter.AdapterRecipe
 import kotlinx.android.synthetic.main.fragment_recipe.*
 
-class Recipe : Fragment() , AdapterRecipe.OnItemClickListener {
+class RecipeList : Fragment() , AdapterRecipe.OnItemClickListener {
 
     private lateinit var adapter: AdapterRecipe
     private lateinit var email: String
@@ -27,9 +27,11 @@ class Recipe : Fragment() , AdapterRecipe.OnItemClickListener {
 
     private var actionMode : ActionMode? = null
 
+    var isContextualModeEnabled : Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        email = RecipeArgs.fromBundle(requireArguments()).email
+        email = RecipeListArgs.fromBundle(requireArguments()).email
         //solamente quiero pedir los nombres de las recetas.
         viewModel.getRecipeList(email)
     }
@@ -48,7 +50,7 @@ class Recipe : Fragment() , AdapterRecipe.OnItemClickListener {
         observeData()
 
         addRecipe.setOnClickListener {
-            val action = RecipeDirections.actionRecetaToListProductsRecipe(email)
+            val action = RecipeListDirections.actionRecetaToListProductsRecipe(email)
             findNavController().navigate(action)
         }
     }
@@ -61,15 +63,17 @@ class Recipe : Fragment() , AdapterRecipe.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {
-        if (!viewModel.isContextualModeEnabled){
-            val action = RecipeDirections.actionRecetaToIngredients(email, adapter.getRecipeIndex(position))
+        val recipe = adapter.getRecipeIndex(position)
+
+        if (!isContextualModeEnabled){
+            val action = RecipeListDirections.actionRecetaToIngredients(email, recipe.name!!)
             findNavController().navigate(action)
         }else{
-            val recipe = adapter.getRecipeIndex(position)
-            if(viewModel.selectedRecipeList.contains(recipe)){
+            if(recipe.selected){
                 viewModel.unselectRecipe(recipe)
                 if (viewModel.selectedRecipeList.isEmpty()){
-                    viewModel.isContextualModeEnabled = false
+                    isContextualModeEnabled = false
+                    actionMode?.finish()
                 }
             }
             else{
@@ -81,16 +85,17 @@ class Recipe : Fragment() , AdapterRecipe.OnItemClickListener {
     override fun onLongClick(position: Int) {
         val recipe = adapter.getRecipeIndex(position)
 
-        if(!viewModel.isContextualModeEnabled){
-            actionMode = activity?.startActionMode(actionModeCallback)
+        if(!isContextualModeEnabled){
+            viewModel.selectedRecipeList = ArrayList<Recipe>()
+            actionMode = requireActivity().startActionMode(actionModeCallback)
+            isContextualModeEnabled = true
             viewModel.selectRecipe(recipe)
-            viewModel.isContextualModeEnabled = true
         }
         else{
-            if(viewModel.selectedRecipeList.contains(recipe)){
+            if(recipe.selected){
                 viewModel.unselectRecipe(recipe)
                 if (viewModel.selectedRecipeList.isEmpty()){
-                    viewModel.isContextualModeEnabled = false
+                    isContextualModeEnabled = false
                     actionMode?.finish()
                 }
             }
@@ -98,42 +103,46 @@ class Recipe : Fragment() , AdapterRecipe.OnItemClickListener {
                 viewModel.selectRecipe(recipe)
             }
         }
+        Log.d("seleccionados", viewModel.selectedRecipeList.toString())
     }
 
 
     private val actionModeCallback = object : ActionMode.Callback {
 
-    // Called when the action mode is created; startActionMode() was called
-    override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
-        // Inflate a menu resource providing context menu items
-        val inflater: MenuInflater = mode.menuInflater
-        inflater.inflate(R.menu.context_menu, menu)
-        return true
-    }
-
-    // Called each time the action mode is shown. Always called after onCreateActionMode, but
-    // may be called multiple times if the mode is invalidated.
-    override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
-        return false // Return false if nothing is done
-    }
-
-    // Called when the user selects a contextual menu item
-    override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.menu_delete -> {
-                Toast.makeText(context, "Delete no implementado", Toast.LENGTH_SHORT).show()
-                // TODO: 26/01/21 Borrar.exe
-//                viewModel.deleteProducts(email)
-                mode.finish() // Action picked, so close the CAB
-                true
-            }
-            else -> false
+        // Called when the action mode is created; startActionMode() was called
+        override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+            // Inflate a menu resource providing context menu items
+            val inflater: MenuInflater = mode.menuInflater
+            inflater.inflate(R.menu.context_menu, menu)
+            return true
         }
-    }
 
-    // Called when the user exits the action mode
-    override fun onDestroyActionMode(mode: ActionMode) {
-        actionMode = null
+        // Called each time the action mode is shown. Always called after onCreateActionMode, but
+        // may be called multiple times if the mode is invalidated.
+        override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
+            return false // Return false if nothing is done
+        }
+
+        // Called when the user selects a contextual menu item
+        override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
+            return when (item.itemId) {
+                R.id.menu_delete -> {
+                    Toast.makeText(context, "Delete no implementado", Toast.LENGTH_SHORT).show()
+                    // TODO: 26/01/21 Borrar.exe
+    //                viewModel.deleteProducts(email)
+                    mode.finish() // Action picked, so close the CAB
+                    true
+                }
+                else -> false
+            }
+        }
+
+        // Called when the user exits the action mode
+        override fun onDestroyActionMode(mode: ActionMode) {
+            viewModel.unselectRecipes()
+            adapter.notifyDataSetChanged()
+            isContextualModeEnabled = false
+            actionMode = null
         }
     }
 }

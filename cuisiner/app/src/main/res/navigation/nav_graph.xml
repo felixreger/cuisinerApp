@@ -48,7 +48,7 @@
     </fragment>
     <fragment
         android:id="@+id/receta"
-        android:name="com.stovia.cuisiner.ui.recipe.Recipe"
+        android:name="com.stovia.cuisiner.ui.recipe.RecipeList"
         android:label="fragment_receta"
         tools:layout="@layout/fragment_recipe" >
         <argument

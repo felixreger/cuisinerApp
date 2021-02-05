@@ -9,13 +9,13 @@ import com.stovia.cuisiner.R
 
 import com.stovia.cuisiner.domain.RecipeUseCase
 import com.stovia.cuisiner.ui.model.Product
+import com.stovia.cuisiner.ui.model.Recipe
 
 class ViewModelRecipe :  ViewModel(){
 
-    var listData = MutableLiveData<MutableList<String>>()
+    var listData = MutableLiveData<MutableList<Recipe>>()
 
-    var selectedRecipeList = ArrayList<String>()
-    var isContextualModeEnabled : Boolean = false
+    var selectedRecipeList = ArrayList<Recipe>()
 
     private val recipeUseCase = RecipeUseCase()
 
@@ -26,22 +26,30 @@ class ViewModelRecipe :  ViewModel(){
         }
     }
 
-    private fun setProductList(list : MutableList<String>) {
+    private fun setProductList(list : MutableList<Recipe>) {
         listData.value = list
     }
 
 
     //retorno una lista de nombres de recetas
-    fun getRecipeListLiveData() : LiveData<MutableList<String>> {
+    fun getRecipeListLiveData() : LiveData<MutableList<Recipe>> {
         return listData
     }
 
-    fun selectRecipe(recipe: String) {
+    fun selectRecipe(recipe: Recipe) {
         selectedRecipeList.add(recipe)
+        recipe.selected = true
     }
 
-    fun unselectRecipe(recipe: String){
+    fun unselectRecipe(recipe: Recipe){
         selectedRecipeList.remove(recipe)
+        recipe.selected = false
+    }
+
+    fun unselectRecipes() {
+        for (recipe in selectedRecipeList){
+            recipe.selected = false
+        }
     }
 
 }

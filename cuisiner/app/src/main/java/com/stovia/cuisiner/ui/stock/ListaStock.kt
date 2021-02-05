@@ -27,7 +27,6 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
     private val viewModel by lazy { ViewModelProviders.of(this).get(ViewModelList::class.java) }
 
     var isContextualModeEnabled : Boolean = false
-    //normal --> selection
 
     private var actionMode : ActionMode? = null
 
@@ -97,7 +96,6 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
                     actionMode?.finish()
                 }
             }
-            Log.d("seleccionados", viewModel.selectedProductList.toString())
         }
     }
 
@@ -159,7 +157,7 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
         // Called when the user exits the action mode
         override fun onDestroyActionMode(mode: ActionMode) {
             viewModel.unselectProducts()
-            adapter.update()
+            adapter.notifyDataSetChanged()
             isContextualModeEnabled = false
             actionMode = null
         }

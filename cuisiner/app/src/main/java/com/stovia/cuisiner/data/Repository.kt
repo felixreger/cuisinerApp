@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 import com.stovia.cuisiner.ui.model.Product
+import com.stovia.cuisiner.ui.model.Recipe
 import com.stovia.cuisiner.ui.model.UserData
 
 class  Repository {
@@ -36,15 +37,15 @@ class  Repository {
     }
 
     // devuelve lista con los nombres de las recetas de un usuario, buscando por la clave "email"
-    fun getUserRecipe(email: String): LiveData<MutableList<String>>{
-        val mutableData = MutableLiveData<MutableList<String>>()
+    fun getUserRecipe(email: String): LiveData<MutableList<Recipe>>{
+        val mutableData = MutableLiveData<MutableList<Recipe>>()
         db.collection("receta")
             .whereEqualTo("email", email)
             .get().addOnSuccessListener { result ->
-                val listData = mutableListOf<String>()
+                val listData = mutableListOf<Recipe>()
                 for (i in result) {
                     val nameRecipe = i.getString("name")
-                    listData.add(nameRecipe!!)
+                    listData.add(Recipe(nameRecipe))
                 }
                 mutableData.value = listData
             }
