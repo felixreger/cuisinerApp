@@ -99,8 +99,6 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
         }
     }
 
-
-
     override fun onLongClick(position: Int) {
         val product = adapter.getProductIndex(position)
 
