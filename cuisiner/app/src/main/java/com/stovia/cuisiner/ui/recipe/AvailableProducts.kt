@@ -121,7 +121,7 @@ class AvailableProducts : Fragment(), AdapterAvailableProducts.OnItemClickListen
         }
     }
 
-    override fun onDialogSaveRecipe(dialog: DialogFragment, recipeName: String) {
+    override fun onDialogSaveRecipe(dialog: DialogFragment, recipeName: String) : Boolean{
         val recipeNames = viewModelReceta.getRecipeListLiveData().value
 
         if(recipeNames != null)
@@ -130,17 +130,18 @@ class AvailableProducts : Fragment(), AdapterAvailableProducts.OnItemClickListen
                 Toast.makeText(context,"Receta guardada correctamente", Toast.LENGTH_SHORT).show()
                 val action = AvailableProductsDirections.actionListProductsRecipeToReceta(email)
                 findNavController().navigate(action)
-            }else{
-                Toast.makeText(context,"No puede haber dos recetas con el mismo nombre",Toast.LENGTH_SHORT).show()
-                openSetRecipeNameDialog()
-            }
+                return true
+            }else
+                return false
+        // TODO: 07/02/21 Controlar que venga con algo y avisarle al Dialog
+        return true
     }
 
     override fun onDialogCancelRecipe(dialog: DialogFragment) {
         Toast.makeText(context,"Receta cancelada",Toast.LENGTH_SHORT).show()
     }
 
-    fun openSetRecipeNameDialog(){
+    private fun openSetRecipeNameDialog(){
         val dialogFragment = RecipeSetFragmentDialog()
         dialogFragment.setTargetFragment(this, 1)
         dialogFragment.show(requireFragmentManager(), "MyCustomDialog")

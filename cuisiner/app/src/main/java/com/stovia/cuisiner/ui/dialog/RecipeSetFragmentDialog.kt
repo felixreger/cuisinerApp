@@ -21,7 +21,7 @@ class RecipeSetFragmentDialog : DialogFragment() {
              * implement this interface in order to receive event callbacks.
              * Each method passes the DialogFragment in case the host needs to query it. */
     interface NoticeDialogListener {
-        fun onDialogSaveRecipe(dialog: DialogFragment,recipeName : String)
+        fun onDialogSaveRecipe(dialog: DialogFragment,recipeName : String) : Boolean
         fun onDialogCancelRecipe(dialog: DialogFragment)
     }
 
@@ -37,13 +37,15 @@ class RecipeSetFragmentDialog : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?    ): View? {
         val rootView: View = inflater.inflate(R.layout.fragment_recipe_set_dialog, container, false)
-//        listener = context as NoticeDialogListener
-//        listener = inflater.context as NoticeDialogListener
 
         rootView.saveButton.setOnClickListener{
             if(rootView.recipeNameEditText.text.isNotBlank()){
-                listener.onDialogSaveRecipe(this,rootView.recipeNameEditText.text.toString())
-                dismiss()
+                if(listener.onDialogSaveRecipe(this,rootView.recipeNameEditText.text.toString())){
+                    dismiss()
+                }
+                else{
+                    Toast.makeText(context,"No puede haber dos recetas con el mismo nombre",Toast.LENGTH_SHORT).show()
+                }
             }else{
                 Toast.makeText(context,"Por favor, ingrese un nombre para la receta",Toast.LENGTH_SHORT).show()
             }
