@@ -58,7 +58,7 @@
         <action android:id="@+id/action_receta_to_listProductsRecipe" app:destination="@id/listProductsRecipe"/>
         <action android:id="@+id/action_receta_to_ingredients" app:destination="@id/ingredients"/>
     </fragment>
-    <fragment android:id="@+id/listProductsRecipe" android:name="com.stovia.cuisiner.ui.recipe.ListRecipe"
+    <fragment android:id="@+id/listProductsRecipe" android:name="com.stovia.cuisiner.ui.recipe.AvailableProducts"
               android:label="fragment_list_products_recipe" tools:layout="@layout/fragment_list_recipe">
         <argument android:name="email" app:argType="string" android:defaultValue="felixregert@gmail.com"/>
         <action

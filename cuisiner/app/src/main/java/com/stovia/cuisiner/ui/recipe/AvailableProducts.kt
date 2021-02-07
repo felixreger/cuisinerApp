@@ -1,11 +1,10 @@
 package com.stovia.cuisiner.ui.recipe
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
-import android.widget.RelativeLayout
 import android.widget.Toast
-import androidx.compose.ui.graphics.Color
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -16,19 +15,20 @@ import com.stovia.cuisiner.R
 import com.stovia.cuisiner.ui.dialog.AddStockDialogFragment
 import com.stovia.cuisiner.ui.dialog.RecipeSetFragmentDialog
 import com.stovia.cuisiner.ui.model.Product
-import com.stovia.cuisiner.viewmodel.adapter.AdapterList
+import com.stovia.cuisiner.ui.model.Recipe
+import com.stovia.cuisiner.viewmodel.adapter.AdapterAvailableProducts
 
 import com.stovia.cuisiner.viewmodel.recipe.ViewModelListRecipe
 import com.stovia.cuisiner.viewmodel.recipe.ViewModelRecipe
 
 import kotlinx.android.synthetic.main.fragment_list_recipe.*
 
-class ListRecipe : Fragment(), AdapterList.OnItemClickListener,
+class AvailableProducts : Fragment(), AdapterAvailableProducts.OnItemClickListener,
     RecipeSetFragmentDialog.NoticeDialogListener {
 
-    private lateinit var adapter: AdapterList
+    private lateinit var adapter: AdapterAvailableProducts
     private lateinit var email: String
-    private val productos = mutableListOf<Int>()
+    private val productos = mutableListOf<Product>()
     private var newRecipeName : String = "default"
     private val recipeNameAsigned : Boolean = false
 
@@ -42,7 +42,7 @@ class ListRecipe : Fragment(), AdapterList.OnItemClickListener,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        email = ListRecipeArgs.fromBundle(requireArguments()).email
+        email = AvailableProductsArgs.fromBundle(requireArguments()).email
         //quiero todos los detalles de los productos asociados al email
         viewModel.getProductosDisponibles(email)
         viewModelReceta.getRecipeList(email)
@@ -58,36 +58,18 @@ class ListRecipe : Fragment(), AdapterList.OnItemClickListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = AdapterList(requireContext(), this)
+        adapter = AdapterAvailableProducts(requireContext(), this)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
         observeData()
         getSave()
 
         saveData.setOnClickListener {
-            //Si todavia no se seteo el nombre, abre el pop up para setearl
-            if(!recipeNameAsigned){
-                val dialogFragment = RecipeSetFragmentDialog()
-                dialogFragment.setTargetFragment(this, 1);
-                dialogFragment.show(requireFragmentManager(), "MyCustomDialog");
-            }else{
-                if(productos.isNotEmpty()){
-                    val recipeNames = viewModelReceta.getRecipeListLiveData().value
-                    // TODO: 01/02/21 Esto de usar dos viewmodels es una crotada, hay que cambiarlo
-                    if (recipeNames != null) {
-                        if(!recipeNames.contains(newRecipeName)){
-                            saveDataRecipe(newRecipeName)
-                            Toast.makeText(context,"Receta guardada correctamente", Toast.LENGTH_SHORT).show()
-                            val action = ListRecipeDirections.actionListProductsRecipeToReceta(email)
-                            findNavController().navigate(action)
-                        }else{
-                            Toast.makeText(context,"No puede haber dos recetas con el mismo nombre",Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }else{
-                    Toast.makeText(context,"La receta no tiene ingredientes",Toast.LENGTH_SHORT).show()
-                }
-            }
+            if(productos.isNotEmpty()){
+                // TODO: 01/02/21 Esto de usar dos viewmodels es una crotada, hay que cambiarlo
+                openSetRecipeNameDialog()
+            }else
+                Toast.makeText(context,"La receta no tiene ingredientes",Toast.LENGTH_SHORT).show()
         }
 
         addProducts.setOnClickListener{
@@ -105,7 +87,8 @@ class ListRecipe : Fragment(), AdapterList.OnItemClickListener,
         viewModel.setRecipeName(nombre)
 
         for (i in productos){
-            viewModel.saveDataRecipe(email, Product(adapter.getProductIndex(i).nombre,"0", adapter.getProductIndex(i).unidad))
+            val newProduct = Product(i.nombre,"0",i.unidad)
+            viewModel.saveDataRecipe(email,newProduct)
         }
 
     }
@@ -128,21 +111,39 @@ class ListRecipe : Fragment(), AdapterList.OnItemClickListener,
     }
 
     override fun onItemClick(position: Int) {
-        if(!productos.contains(position)){
-            //adapter.changeItem(position)
-            productos.add(position)
+        val product = adapter.getProductIndex(position)
+        if(!product.selected){
+            product.selected = true
+            productos.add(product)
         }else {
-            //adapter.changeItem(position)
-            productos.remove(position)
+            product.selected = false
+            productos.remove(product)
         }
     }
 
     override fun onDialogSaveRecipe(dialog: DialogFragment, recipeName: String) {
-        newRecipeName = recipeName
+        val recipeNames = viewModelReceta.getRecipeListLiveData().value
+
+        if(recipeNames != null)
+            if(!recipeNames.contains(Recipe(recipeName))){
+                saveDataRecipe(recipeName)
+                Toast.makeText(context,"Receta guardada correctamente", Toast.LENGTH_SHORT).show()
+                val action = AvailableProductsDirections.actionListProductsRecipeToReceta(email)
+                findNavController().navigate(action)
+            }else{
+                Toast.makeText(context,"No puede haber dos recetas con el mismo nombre",Toast.LENGTH_SHORT).show()
+                openSetRecipeNameDialog()
+            }
     }
 
     override fun onDialogCancelRecipe(dialog: DialogFragment) {
         Toast.makeText(context,"Receta cancelada",Toast.LENGTH_SHORT).show()
+    }
+
+    fun openSetRecipeNameDialog(){
+        val dialogFragment = RecipeSetFragmentDialog()
+        dialogFragment.setTargetFragment(this, 1)
+        dialogFragment.show(requireFragmentManager(), "MyCustomDialog")
     }
 
 }

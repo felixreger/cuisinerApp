@@ -65,9 +65,6 @@ class Adapter(private val context: Context, private val listener: OnItemClickLis
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if(getProductIndex(position).selected){
             holder.relativeLayout.setBackgroundResource(R.color.colorPrimary)
-//            holder.itemNombre.setTextColor(Color.WHITE)
-//            holder.itemCantidad.setTextColor(Color.WHITE)
-//            holder.itemUnidad.setTextColor(Color.WHITE)
         }else{
             holder.relativeLayout.setBackgroundColor(Color.WHITE)
         }
