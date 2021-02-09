@@ -24,29 +24,25 @@ class AddStockDialogFragment : DialogFragment() {
 
     private val viewModel by lazy { ViewModelProviders.of(this).get(ViewModelAddStock::class.java) }
 
-    internal lateinit var listener: CheckLisDialogListener
+    internal lateinit var listener: DialogListener
 
     private lateinit var savedProduct : Product
-    interface CheckLisDialogListener{
+
+    interface DialogListener{
         fun checkContainsName(product: Product) : Boolean
-        fun notifyDataSetChanged()
+        fun methodToPassMyData(name:String, amount:String, unit:String)
     }
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         try {
-            listener = targetFragment as CheckLisDialogListener
+            listener = targetFragment as DialogListener
         } catch (e: ClassCastException) {
             throw ClassCastException((context.toString() +
-                    " must implement NoticeDialogListener"))
+                    " must implement DialogListener"))
         }
     }
-
-    interface MyContract{
-        fun methodToPassMyData(name:String, amount:String, unit:String)
-    }
-
-    var mHost : MyContract?=null
 
     override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View? {
         val rootView: View = inflater.inflate(R.layout.fragment_add_stock_dialog, container, false)
@@ -80,16 +76,7 @@ class AddStockDialogFragment : DialogFragment() {
 
     private fun observeData() {
         viewModel.getResultSaveData().observe(requireActivity(), Observer {
-            mHost!!.methodToPassMyData(it.nombre!!, it.cantidad!!, it.unidad!!)
+            listener.methodToPassMyData(it.nombre!!, it.cantidad!!, it.unidad!!)
         })
-    }
-
-    override fun onAttach(context: Context) {
-        try {
-            mHost = targetFragment as MyContract
-        } catch (e: ClassCastException) {
-            throw ClassCastException(("$context must implement NoticeDialogListener"))
-        }
-        super.onAttach(context)
     }
 }

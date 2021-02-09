@@ -19,8 +19,7 @@ import kotlinx.android.synthetic.main.fragment_lista_stock.*
 
 
 class ListaStock : Fragment(), Adapter.OnItemClickListener ,
-    AddStockDialogFragment.CheckLisDialogListener {
-class ListaStock : Fragment(), Adapter.OnItemClickListener, AddStockDialogFragment.MyContract {
+    AddStockDialogFragment.DialogListener {
 
     private lateinit var adapter: Adapter
     private lateinit var email: String
@@ -190,9 +189,6 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener, AddStockDialogFragme
         return false
     }
 
-    override fun notifyDataSetChanged() {
-        adapter.notifyDataSetChanged()
-    }
 
 
 }
