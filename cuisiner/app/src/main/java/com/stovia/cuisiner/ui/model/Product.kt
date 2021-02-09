@@ -47,14 +47,14 @@ class Product (val nombre: String? = "nombre",
         other as Product
 
         if (nombre != other.nombre) return false
-        if (cantidad != other.cantidad) return false
-        if (unidad != other.unidad) return false
-        if (selected != other.selected) return false
-//todo, no tiene que comparar el selected al momento de ver si contiene la lista al producto del que estamos hablando
-
 
         return true
     }
+
+    override fun hashCode(): Int {
+        return nombre?.hashCode() ?: 0
+    }
+
 
     companion object CREATOR : Parcelable.Creator<Product> {
         override fun createFromParcel(parcel: Parcel): Product {

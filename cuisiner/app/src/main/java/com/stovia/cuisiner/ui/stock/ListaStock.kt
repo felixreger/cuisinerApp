@@ -13,13 +13,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.stovia.cuisiner.R
 import com.stovia.cuisiner.ui.dialog.AddStockDialogFragment
 import com.stovia.cuisiner.ui.dialog.EditStockDialogFragment
+import com.stovia.cuisiner.ui.dialog.RecipeSetFragmentDialog
 import com.stovia.cuisiner.ui.model.Product
 import com.stovia.cuisiner.viewmodel.stock.ViewModelList
 import com.stovia.cuisiner.viewmodel.adapter.Adapter
 import kotlinx.android.synthetic.main.fragment_lista_stock.*
 
 
-class ListaStock : Fragment(), Adapter.OnItemClickListener {
+class ListaStock : Fragment(), Adapter.OnItemClickListener ,
+    AddStockDialogFragment.CheckLisDialogListener {
 
     private lateinit var adapter: Adapter
     private lateinit var email: String
@@ -54,7 +56,8 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
             val args = Bundle()
             args.putString("email",email)
             dialogFragment.arguments = args
-            fragmentManager?.let { it1 -> dialogFragment.show(it1, "custom dialog") }
+            dialogFragment.setTargetFragment(this, 1)
+            dialogFragment.show(requireFragmentManager(), "MyCustomDialog")
         }
     }
 
@@ -159,6 +162,18 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
             isContextualModeEnabled = false
             actionMode = null
         }
+    }
+
+    override fun checkContainsName(product: Product): Boolean {
+        val list = viewModel.getProductListLiveData().value
+        if (list != null){
+            return list.contains(product)
+        }
+        return false
+    }
+
+    override fun notifyDataSetChanged() {
+        adapter.notifyDataSetChanged()
     }
 
 
