@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.stovia.cuisiner.data.Repository
 import com.stovia.cuisiner.ui.model.Product
+import com.stovia.cuisiner.viewmodel.stock.Confirmation
 
 class ListProductsUseCase{
 
@@ -19,10 +20,18 @@ class ListProductsUseCase{
         }
         return mutableData
     }
-
+    /*
     fun deleteProducts(email: String, product: String): LiveData<Boolean> {
         val mutableUserData = MutableLiveData<Boolean>()
         repository.deleteProduct(email, product).observeForever {
+            mutableUserData.value = it
+        }
+        return mutableUserData
+    }*/
+
+    fun deleteProductsConf(email: String, product: String): LiveData<Confirmation> {
+        val mutableUserData = MutableLiveData<Confirmation>()
+        repository.deleteProductRefresh(email, product).observeForever {
             mutableUserData.value = it
         }
         return mutableUserData

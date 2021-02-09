@@ -13,6 +13,8 @@ import com.stovia.cuisiner.R
 import com.stovia.cuisiner.domain.ListProductsUseCase
 import com.stovia.cuisiner.ui.model.Product
 
+data class Confirmation(var name:String, var confir:Boolean)
+
 class ViewModelList :  ViewModel(){
 
     private val listProductsUseCase = ListProductsUseCase()
@@ -20,7 +22,7 @@ class ViewModelList :  ViewModel(){
 
     var selectedProductList = ArrayList<Product>()
 
-    var result = MutableLiveData<Boolean>()
+    var result = MutableLiveData<Confirmation>()
 
     fun getProductList(email:String) {
         listProductsUseCase.getProductList(email).observeForever {
@@ -49,22 +51,33 @@ class ViewModelList :  ViewModel(){
     private fun shareCurrentItem() {
         TODO("Not yet implemented")
     }
-
+    /*
     fun deleteProducts(email:String) {
-
         for(i in selectedProductList){
             listProductsUseCase.deleteProducts(email, i.nombre!!).observeForever {
+                result.value = it
+            }
+        }
+    }*/
+    fun deleteProducts(email:String) {
+        for(i in selectedProductList){
+            listProductsUseCase.deleteProductsConf(email, i.nombre!!).observeForever {
                 result.value = it
             }
         }
 
     }
 
+
+    fun getResult(): LiveData<Confirmation>{
+        return result}
+
     fun unselectProducts() {
         for (product in selectedProductList){
            product.selected = false
         }
     }
+
 
 
 }
