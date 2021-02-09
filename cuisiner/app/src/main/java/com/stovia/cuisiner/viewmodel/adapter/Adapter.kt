@@ -81,11 +81,26 @@ class Adapter(private val context: Context, private val listener: OnItemClickLis
         productList = user_products
     }
 
-    fun removeProduct(product: Product){
-        productList.remove(product)
+    fun removeProduct(product: String){
+        removeByName(product)
+    }
+
+    private fun removeByName(product: String) {
+        for (i in productList){
+            if(i.nombre == product){
+                productList.remove(i)
+                return
+            }
+        }
     }
 
     fun getProductIndex(position: Int): Product {
         return productList[position]
     }
+
+    fun addProduct(name: String, amount: String, unit: String) {
+        productList.add(Product(name, amount, unit))
+    }
+
+
 }

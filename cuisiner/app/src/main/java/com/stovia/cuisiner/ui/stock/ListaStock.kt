@@ -3,9 +3,7 @@ package com.stovia.cuisiner.ui.stock
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.widget.RelativeLayout
 import android.widget.Toast
-import androidx.compose.ui.graphics.Color.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -19,7 +17,7 @@ import com.stovia.cuisiner.viewmodel.adapter.Adapter
 import kotlinx.android.synthetic.main.fragment_lista_stock.*
 
 
-class ListaStock : Fragment(), Adapter.OnItemClickListener {
+class ListaStock : Fragment(), Adapter.OnItemClickListener, AddStockDialogFragment.MyContract {
 
     private lateinit var adapter: Adapter
     private lateinit var email: String
@@ -29,6 +27,14 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
     var isContextualModeEnabled : Boolean = false
 
     private var actionMode : ActionMode? = null
+
+    override fun methodToPassMyData(name:String, amount:String, unit:String) {
+        if(name != "error"){
+            adapter.addProduct(name, amount, unit)
+            adapter.notifyDataSetChanged()
+        }else
+            Toast.makeText(context,"ERROR, NO SE CARGO", Toast.LENGTH_SHORT).show()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,14 +54,27 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
         observeData()
+        observeRemovedProducts()
 
         addProductButton.setOnClickListener {
+
             val dialogFragment = AddStockDialogFragment()
             val args = Bundle()
             args.putString("email",email)
+            dialogFragment.setTargetFragment(this, 1)
+
             dialogFragment.arguments = args
             fragmentManager?.let { it1 -> dialogFragment.show(it1, "custom dialog") }
         }
+    }
+
+    private fun observeRemovedProducts() {
+        viewModel.getResult().observe(viewLifecycleOwner, Observer {
+            if (it.confir){
+                adapter.removeProduct(it.name)
+                adapter.notifyDataSetChanged()
+            }
+        })
     }
 
     private fun observeData() {
@@ -160,6 +179,5 @@ class ListaStock : Fragment(), Adapter.OnItemClickListener {
             actionMode = null
         }
     }
-
 
 }

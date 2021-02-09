@@ -11,6 +11,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.stovia.cuisiner.ui.model.Product
 import com.stovia.cuisiner.ui.model.Recipe
 import com.stovia.cuisiner.ui.model.UserData
+import com.stovia.cuisiner.viewmodel.stock.Confirmation
 
 class  Repository {
 
@@ -135,7 +136,7 @@ class  Repository {
         return mutableUserData
     }
 
-    fun saveProduct(email: String, amount: String, unit: String, productName: String): LiveData<Boolean>{
+    fun saveProduct(email: String, amount: String, unit: String, productName: String): MutableLiveData<Boolean>{
         val mutableUserData = MutableLiveData<Boolean>()
 
         db.collection("usuarios") //Busco en usuarios
@@ -153,6 +154,27 @@ class  Repository {
         return mutableUserData
     }
 
+    fun saveProductConfirmation(email: String, amount: String, unit: String, productName: String): LiveData<Product>{
+        val mutableUserData = MutableLiveData<Product>()
+
+        db.collection("usuarios") //Busco en usuarios
+            .document(email ?: "") //Por mail
+            .collection("productos") //Busco en productos
+            .document(productName) //Por nombre de producto
+            .set( //Se crea un documento por cada users y la clave es "email"
+                hashMapOf(
+                    "cantidad" to amount, //todo ver si se puede pasar numeric, definir en base a features
+                    "unidad" to unit
+                )
+            ).addOnCompleteListener {
+                if(it.isSuccessful){
+                    mutableUserData.value  = Product(productName, amount, unit)
+                }
+                else mutableUserData.value  = Product("error", "error","error")
+        }
+        return mutableUserData
+    }
+
     /*
     fun updateData(email: String, amount: String, unit: String, productName: String){
 
@@ -166,6 +188,18 @@ class  Repository {
             .collection("productos") //Busco en productos
             .document(productName).delete().addOnCompleteListener {
                 mutableUserData.value= it.isSuccessful
+            }
+        return mutableUserData
+    }
+
+    fun deleteProductRefresh(email: String, productName: String): LiveData<Confirmation> {
+        val mutableUserData = MutableLiveData<Confirmation>()
+
+        db.collection("usuarios") //Busco en usuarios
+            .document(email ?: "") //Por mail
+            .collection("productos") //Busco en productos
+            .document(productName).delete().addOnCompleteListener {
+                mutableUserData.value = Confirmation(productName, it.isSuccessful)
             }
         return mutableUserData
     }
