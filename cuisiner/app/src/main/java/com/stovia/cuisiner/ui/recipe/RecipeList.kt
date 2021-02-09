@@ -130,7 +130,7 @@ class RecipeList : Fragment() , AdapterRecipe.OnItemClickListener {
                     Toast.makeText(context, "Delete no implementado", Toast.LENGTH_SHORT).show()
                     // TODO: 26/01/21 Borrar.exe
     //                viewModel.deleteProducts(email)
-                    mode.finish() // Action picked, so close the CAB
+                    mode.finish() // Action picked, so close the CAB(J)
                     true
                 }
                 else -> false
